@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>🩺 ସଖା — Digital Health Friend</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #6c53f7;
+            --secondary: #7b79ec;
+            --accent: #7c5dfa;
+            --card-bg: #ffffff;
+            --text-main: #333333;
+            --text-muted: #666666;
+        }
+
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* makes the video cover the screen */
+            filter: blur(6px);
+            /* blur like before */
+            transform: scale(1.05);
+            /* slight zoom like before */
+            z-index: -1;
+            /* push it behind everything */
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .left-panel {
+            min-width: 220px;
+            color: white;
+        }
+
+        .card-shadow {
+            box-shadow: 0 0 25px var(--primary);
+        }
+
+        .chat-circle {
+            transition: all 0.3s ease;
+            background: var(--secondary);
+            color: white;
+        }
+
+        .chat-circle.listening {
+            background-color: var(--accent);
+            box-shadow: 0 0 25px var(--accent);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.2) !important;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+
+        .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: transparent transparent;
+        }
+
+        #chatBox {
+            scroll-behavior: smooth;
+        }
+
+        #modal {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="relative min-h-screen">
+
+    <div class="absolute top-4 right-4 z-50 flex items-center gap-2">
+
+
+        <!-- Push language buttons to the right -->
+        <div class="flex gap-2 ml-auto">
+            <button id="lang-en"
+                class="text-white font-semibold py-2 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 transition">EN</button>
+            <button id="lang-or"
+                class="text-white font-semibold py-2 px-4 rounded-xl bg-green-600 hover:bg-green-700 transition">ଓଡ଼ିଆ</button>
+            <button id="lang-hi"
+                class="text-white font-semibold py-2 px-4 rounded-xl bg-red-600 hover:bg-red-700 transition">हिंदी</button>
+        </div>
+
+        <!-- Logout Button on the left -->
+        <button id="logoutBtn" class="flex items-center gap-2 bg-red-500 text-white px-4 py-2 rounded-xl shadow-lg 
+              hover:bg-red-600 hover:scale-105 transition-transform duration-300 ease-in-out">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 21V3h12v18H3z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12h6m-3-3l3 3-3 3" />
+            </svg>
+            <span id="logout">Logout</span>
+        </button>
+    </div>
+
+
+    <video autoplay muted loop playsinline id="bg-video" class="absolute inset-0 w-full h-full object-cover -z-10">
+        <source src="images/doc_vid.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="min-h-screen flex flex-col lg:flex-row items-start gap-6 p-4 lg:p-8">
+        <aside class="left-panel glass p-4 rounded-2xl lg:h-[85vh] card-shadow flex flex-col gap-6 
+         bg-black/60 w-full lg:w-64 overflow-y-auto custom-scrollbar">
+            <div class="text-lg font-semibold text-white" id="features-text">Features</div>
+            <nav class="flex flex-col gap-4">
+
+                <a href="chat.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M11 4.717c-2.286-.58-4.16-.756-7.045-.71A1.99 1.99 0 0 0 2 6v11c0 1.133.934 2.022 2.044 2.007 2.759-.038 4.5.16 6.956.791V4.717Zm2 15.081c2.456-.631 4.198-.829 6.956-.791A2.013 2.013 0 0 0 22 16.999V6a1.99 1.99 0 0 0-1.955-1.993c-2.885-.046-4.76.13-7.045.71v15.081Z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <span id="chat-text">Text Chat</span>
+                    </button>
+                </a>
+
+                <a href="outbreak.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M17.133 12.632v-1.8a5.406 5.406 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.955.955 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175ZM6 6a1 1 0 0 1-.707-.293l-1-1a1 1 0 0 1 1.414-1.414l1 1A1 1 0 0 1 6 6Zm-2 4H3a1 1 0 0 1 0-2h1a1 1 0 1 1 0 2Zm14-4a1 1 0 0 1-.707-1.707l1-1a1 1 0 1 1 1.414 1.414l-1 1A1 1 0 0 1 18 6Zm3 4h-1a1 1 0 1 1 0-2h1a1 1 0 1 1 0 2ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z" />
+                        </svg>
+                        <span id="outbreak-text">Outbreak Alert</span>
+                    </button>
+                </a>
+
+                <a href="alert.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M18 5.05h1a2 2 0 0 1 2 2v2H3v-2a2 2 0 0 1 2-2h1v-1a1 1 0 1 1 2 0v1h3v-1a1 1 0 1 1 2 0v1h3v-1a1 1 0 1 1 2 0v1Zm-15 6v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-8H3ZM11 18a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1a1 1 0 1 0-2 0v1h-1a1 1 0 1 0 0 2h1v1Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span id="vaccine-text">MediAlert</span>
+                    </button>
+                </a>
+
+                <a href="http://localhost:3001">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-4.35-4.35" />
+                            <circle cx="11" cy="11" r="7" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <rect x="7" y="7" width="8" height="5" rx="1" ry="1" stroke-width="1.5" />
+                            <circle cx="9" cy="9" r="1" stroke-width="1.5" />
+                        </svg>
+                        <span id="imgdet-text">Image Search</span>
+                    </button>
+                </a>
+
+                <a href="myth.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path
+                                d="M21.972 11.517a.527.527 0 0 0-1.034-.105 1.377 1.377 0 0 1-1.324 1.01 1.467 1.467 0 0 1-1.4-1.009.526.526 0 0 0-1.015 0 1.467 1.467 0 0 1-2.737.143l-.049-.204.021-.146V9.369h2.304a2.632 2.632 0 0 0 2.631-2.632 2.678 2.678 0 0 0-2.654-2.632l-.526.022-.13-.369A2.632 2.632 0 0 0 13.579 2c-.461 0-.915.124-1.313.358L12 2.513l-.266-.155A2.603 2.603 0 0 0 10.422 2a2.632 2.632 0 0 0-2.483 1.759l-.13.37-.518-.024a2.681 2.681 0 0 0-2.66 2.632A2.632 2.632 0 0 0 7.264 9.37H9.61v1.887l-.007.09-.028.08a1.328 1.328 0 0 1-1.301.996 1.632 1.632 0 0 1-1.502-1.024.526.526 0 0 0-1.01.013 1.474 1.474 0 0 1-1.404 1.01 1.381 1.381 0 0 1-1.325-1.01.547.547 0 0 0-.569-.382h-.008a.526.526 0 0 0-.456.526v.446a10.012 10.012 0 0 0 10 10 9.904 9.904 0 0 0 7.067-2.94A10.019 10.019 0 0 0 22 11.966l-.028-.449ZM8.316 15.685a1.053 1.053 0 1 1 2.105 0 1.053 1.053 0 0 1-2.105 0Zm1.58 3.684a2.105 2.105 0 0 1 4.21 0h-4.21Zm4.736-2.631a1.052 1.052 0 1 1 0-2.105 1.052 1.052 0 0 1 0 2.105Z" />
+                        </svg>
+                        <span id="myth-text">Myth Analyzer</span>
+                    </button>
+                </a>
+
+                <a href="hospitals.html">
+                    <button id="btn-nearby"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full hover:bg-blue-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 22s8-4.5 8-11a8 8 0 10-16 0c0 6.5 8 11 8 11z" />
+                            <circle cx="12" cy="11" r="3" stroke="currentColor" stroke-width="1.5" fill="none" />
+                        </svg>
+                        <span id="nearby-text">Nearby Hospitals</span>
+                    </button>
+                </a>
+
+                <a href="doctorlive.html">
+                    <button id="btn-doctorlive"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="1.5" stroke="currentColor"
+                                d="M6.6 10.8a15.9 15.9 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1.1-.2 12.6 12.6 0 0 0 3.9.6 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1 17 17 0 0 1-15-15 1 1 0 0 1 1-1h3.4a1 1 0 0 1 1 1c0 1.3.2 2.6.6 3.9a1 1 0 0 1-.2 1.1l-2.2 2.2z" />
+                            <path stroke-width="1.5" stroke="currentColor" d="M16 2v4m-2-2h4" />
+                        </svg>
+                        <span id="doctorlive-text">Doctor Available</span>
+                    </button>
+                </a>
+
+                <a href="quiz.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="1.5" d="M9 2h6a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H6a2 
+                                        2 0 0 1-2-2V7a2 2 0 0 1 2-2h1V4a2 2 0 0 1 2-2z" />
+                            <path stroke-width="1.5" d="M9 12l2 2 4-4" />
+                        </svg>
+                        <span id="quiz-text">Quiz</span>
+                    </button>
+                </a>
+
+                <a href="weather.html">
+                    <button id="btn-quiz"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+                            viewBox="0 0 24 24">
+                            <path fill-rule="evenodd"
+                                d="M13 3a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0V3ZM6.343 4.929A1 1 0 0 0 4.93 6.343l1.414 1.414a1 1 0 0 0 1.414-1.414L6.343 4.929Zm12.728 1.414a1 1 0 0 0-1.414-1.414l-1.414 1.414a1 1 0 0 0 1.414 1.414l1.414-1.414ZM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm-9 4a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2H3Zm16 0a1 1 0 1 0 0 2h2a1 1 0 1 0 0-2h-2ZM7.757 17.657a1 1 0 1 0-1.414-1.414l-1.414 1.414a1 1 0 1 0 1.414 1.414l1.414-1.414Zm9.9-1.414a1 1 0 0 0-1.414 1.414l1.414 1.414a1 1 0 0 0 1.414-1.414l-1.414-1.414ZM13 19a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2Z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <span id="weather-text">WeatherWise</span>
+                    </button>
+                </a>
+
+                <a href="dailynews.html">
+                    <button id="btn-dailynews"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-width="1.5" stroke="currentColor" d="M19 4H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 
+                                        2 0 0 0 2-2V6a2 2 0 0 0-2-2zM7 8h10M7 12h6M7 16h10" />
+                        </svg>
+                        <span id="dailyNews-text">Daily News</span>
+                    </button>
+                </a>
+
+                <a href="emergency.html">
+                    <button id="btn-emergency"
+                        class="flex items-center gap-3 text-lg font-medium px-3 py-2 rounded-xl w-full bg-red-100 text-red-700 hover:bg-red-200">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M12 4v16m8-8H4" />
+                        </svg>
+                        <span id="emergency-text">Emergency</span>
+                    </button>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="flex-1 flex flex-col gap-4">
+            <header class="flex items-center justify-between ">
+                <h1 class="text-2xl lg:text-4xl font-bold text-blue-600"><span class="font-extrabold text-blue-700">🩺
+                        ସଖା</span> — <span id="title">Digital Health
+                        Friend</span></h1>
+            </header>
+
+            <section class="grid grid-cols-1 lg:grid-cols-12 gap-4 items-start">
+                <div class="lg:col-span-7 flex flex-col gap-4">
+
+                    <div class="flex flex-col items-center justify-center gap-4 h-[300px] lg:h-[610px]">
+                        <div id="micBtn"
+                            class="chat-circle rounded-full w-20 h-20 lg:w-28 lg:h-28 flex items-center justify-center cursor-pointer bg-purple-600 hover:bg-purple-700">
+                            <i class="fas fa-microphone text-xl lg:text-2xl text-white"></i>
+                        </div>
+
+                        <h2 class="text-2xl lg:text-3xl font-bold text-white" id="chatTitle">Chat</h2>
+                        <p class="text-gray-200 text-sm lg:text-base" id="chatDescription">Type or Speak to Chat</p>
+
+                        <div id="chatBox"
+                            class="relative mt-4 p-4 bg-gray-900 rounded-lg text-gray-100 w-[90%] lg:w-[60%] h-[300px] lg:h-[400px] overflow-y-auto">
+                            <p class="text-gray-500 text-sm" id="chatPlaceholder">Your messages will appear here...
+                                Click the mic to start.</p>
+                            <button id="muteBtn"
+                                class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm">
+                                🔊
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <aside
+                    class="lg:col-span-5 bg-black/50 backdrop-blur-md rounded-2xl p-4 card-shadow flex flex-col max-h-[720px] overflow-y-auto custom-scrollbar">
+                    <h3 class="text-2xl lg:text-3xl font-bold mb-6 text-white" id="commonDiseases">Common
+                        Diseases</h3>
+                    <div class="grid grid-cols-2 gap-4">
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Fever">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Fever</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Fever" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/fever.jpeg" class="w-full h-full object-cover rounded-xl" alt="Fever">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Fever</h3>
+                                    <p class="text-sm mt-2">Common symptom of infection, usually temporary. Stay
+                                        hydrated
+                                        and rest well.
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Cough">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Cough</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Cough" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/cough.jpeg" class="w-full h-full object-cover rounded-xl" alt="Cough">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Cough</h3>
+                                    <p class="text-sm mt-2">Usually caused by infections or allergies. Drink warm fluids
+                                        and rest your throat.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Dengue">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Dengue</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Dengue" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/dengue.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Dengue">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Dengue</h3>
+                                    <p class="text-sm mt-2">Mosquito-borne viral disease. Prevent bites and stay
+                                        hydrated. Seek medical help.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Malaria">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Malaria</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Malaria" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/malaria.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Malaria">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Malaria</h3>
+                                    <p class="text-sm mt-2">Spread by mosquito bites. Early treatment is essential. Use
+                                        mosquito nets.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Headache">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Headache</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Headache" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/headache.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Headache">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Headache</h3>
+                                    <p class="text-sm mt-2">May be caused by stress, dehydration, or lack of sleep.
+                                        Relax and stay hydrated.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Diabetes">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Diabetes</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Diabetes" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/diabetes.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Diabetes">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Diabetes</h3>
+                                    <p class="text-sm mt-2">A condition with high blood sugar. Manage with diet,
+                                        exercise, and medication.
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Cancer">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Cancer</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Cancer" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/cancer.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Cancer">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Cancer</h3>
+                                    <p class="text-sm mt-2">Uncontrolled cell growth. Early detection and treatment
+                                        improve survival.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="AIDS">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">AIDS</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=AIDS" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/aids.jpeg" class="w-full h-full object-cover rounded-xl" alt="AIDS">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">AIDS</h3>
+                                    <p class="text-sm mt-2">Caused by HIV virus, weakens immunity. Prevention and
+                                        treatment are vital.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="BP">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">BP</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=BP+Related" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/bp.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Blood Pressure">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Blood Pressure</h3>
+                                    <p class="text-sm mt-2">High or low blood pressure affects the heart. Maintain
+                                        healthy lifestyle.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Sprain">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Sprain</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Sprain" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/sprain.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Sprain">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Sprain</h3>
+                                    <p class="text-sm mt-2">Injury to ligaments. Rest, ice, compression, and elevation
+                                        help recovery.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Asthma">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Asthma</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Asthma" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/asthma.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Asthma">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Asthma</h3>
+                                    <p class="text-sm mt-2">Chronic lung condition. Avoid triggers and use inhalers when
+                                        prescribed.</p>
+                                </div>
+                            </div>
+                        </button>
+
+                        <button class="disease-card relative flex flex-col justify-between p-4 rounded-xl text-left 
+                                    bg-[var(--secondary)]/20 backdrop-blur-sm border border-[var(--secondary)]/30 
+                                    hover:bg-[var(--secondary)]/30 transition-all duration-500 overflow-hidden group"
+                            data-disease="Thyroid">
+                            <div class="relative z-10 group-hover:opacity-0 transition-opacity duration-300">
+                                <div class="text-xl text-white font-semibold">Thyroid</div>
+                                <div class="text-sm text-[var(--text-muted)] mt-3">Tap to Know More...</div>
+                                <a href="https://www.youtube.com/results?search_query=Thyroid" target="_blank"
+                                    class="mt-4 inline-block px-3 py-2 text-sm bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700">
+                                    ▶ Watch on YouTube
+                                </a>
+                            </div>
+
+                            <div
+                                class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                <img src="images/thyroid.jpeg" class="w-full h-full object-cover rounded-xl"
+                                    alt="Thyroid">
+                                <div
+                                    class="absolute inset-0 bg-black/40 rounded-xl flex flex-col items-center justify-center p-4 text-center text-white">
+                                    <h3 class="text-lg font-bold">Thyroid</h3>
+                                    <p class="text-sm mt-2">Imbalance of thyroid hormones. Regular check-ups and
+                                        medication are important.
+                                    </p>
+                                </div>
+                            </div>
+                        </button>
+                    </div>
+                </aside>
+            </section>
+        </main>
+    </div>
+    <script src="translations.js"></script>
+    <script src="sakha.js"></script>
+    <script type="module" src="voice.js"></script>
+    <script type="module" src="logout.js"></script>
+</body>
+
+</html>
