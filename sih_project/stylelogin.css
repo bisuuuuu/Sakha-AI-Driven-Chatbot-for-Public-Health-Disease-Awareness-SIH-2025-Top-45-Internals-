@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #1a2a6c, #2a52be, #1e90ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Main container */
+.container {
+  background: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 25px rgba(108, 83, 247, 0.4);
+  position: relative;
+  overflow: hidden;
+  width: 900px;
+  max-width: 100%;
+  min-height: 500px;
+}
+
+/* Form containers */
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all 0.6s ease-in-out;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 50%;
+  padding: 40px;
+  text-align: center;
+}
+
+/* Sign in */
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+  transition: all 0.6s ease-in-out;
+}
+
+/* Sign up */
+.sign-up-container {
+  left: 50%;   /* start on the right */
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+  transition: all 0.6s ease-in-out;
+}
+
+/* When active (show Sign Up) */
+.container.active .sign-up-container {
+  transform: translateX(-100%); /* slide into view */
+  opacity: 1;
+  z-index: 5;
+  visibility: visible;
+}
+
+/* Hide Sign In when active */
+.container.active .sign-in-container {
+  transform: translateX(-100%);
+  opacity: 0;
+  z-index: 1;
+  visibility: hidden;
+}
+
+
+
+/* Overlay */
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform 0.6s ease-in-out;
+  z-index: 100;
+}
+
+.overlay {
+  background: linear-gradient(135deg, #6c53f7, #9c8dfb);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: #fff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform 0.6s ease-in-out;
+}
+
+.container.active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transition: transform 0.6s ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+  left: 0;
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.active .overlay-left {
+  transform: translateX(0);
+}
+
+.container.active .overlay-right {
+  transform: translateX(20%);
+}
+
+/* Inputs */
+input {
+  background: #eee;
+  border: none;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 5px;
+}
+
+/* Buttons */
+.btn, .ghost {
+  border: none;
+  border-radius: 25px;
+  padding: 12px 40px;
+  background: linear-gradient(90deg, #6c53f7, #9c8dfb);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 15px;
+  transition: 0.3s;
+}
+
+.btn:hover, .ghost:hover {
+  opacity: 0.9;
+}
+
+.ghost {
+  background: transparent;
+  border: 2px solid #fff;
+}
+
+/* Social Login */
+.social-login {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.google-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 240px;
+  height: 45px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+  background: #fff;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+  transition: 0.3s;
+}
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
+}
+
+.google-btn:hover {
+  background: #f1f1f1;
+}

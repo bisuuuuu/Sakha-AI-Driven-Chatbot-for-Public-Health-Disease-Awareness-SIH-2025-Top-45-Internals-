@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AI Public Health Chatbot — Skin Condition Detector</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-lg text-center">
+    <h1 class="text-2xl font-bold text-blue-600 mb-3">🩺 AI Health Detector</h1>
+    <p class="text-gray-600 mb-5">
+      Upload an image and get instant medical guidance (Prototype only — consult a doctor).
+    </p>
+
+    <input type="file" id="imageUpload" accept="image/*"
+      class="mb-4 block w-full border border-gray-300 rounded-lg p-2" />
+    <img id="preview" class="mx-auto mb-4 hidden rounded-lg shadow-md" width="280" />
+
+    <div id="alertBanner" class="hidden mb-4 p-3 rounded-lg font-semibold"></div>
+
+    <div id="output" class="text-left space-y-3 hidden">
+      <p><strong class="text-blue-600">Medical issue detected:</strong>
+        <span id="detected">—</span></p>
+
+      <div>
+        <strong class="text-blue-600">Possible conditions:</strong>
+        <ul id="possibilities"
+          class="list-disc list-inside text-sm text-gray-700 mt-1"></ul>
+      </div>
+
+      <p><strong class="text-blue-600">Steps to be taken:</strong>
+        <span id="steps">—</span></p>
+
+      <p><strong class="text-blue-600">Danger level:</strong>
+        <span id="dangerBadge"
+          class="inline-block px-3 py-1 rounded text-white">—</span></p>
+
+      <div>
+        <strong class="text-blue-600">Medical summary:</strong>
+        <p id="summary" class="text-sm text-gray-700 mt-1">—</p>
+      </div>
+    </div>
+
+    <div id="result"
+      class="text-lg font-semibold text-gray-700 mt-4"></div>
+  </div>
+
+  <script>
+    const imageUpload = document.getElementById("imageUpload");
+    const preview = document.getElementById("preview");
+    const result = document.getElementById("result");
+    const output = document.getElementById("output");
+    const alertBanner = document.getElementById("alertBanner");
+
+    const detectedEl = document.getElementById("detected");
+    const possibilitiesEl = document.getElementById("possibilities");
+    const stepsEl = document.getElementById("steps");
+    const dangerBadge = document.getElementById("dangerBadge");
+    const summaryEl = document.getElementById("summary");
+
+    function dangerBadgeClass(level) {
+      if (level === "High") return "bg-red-600";
+      if (level === "Medium") return "bg-yellow-400 text-black";
+      if (level === "Low") return "bg-green-600";
+      return "bg-gray-500";
+    }
+
+    async function analyzeImage(file) {
+      result.innerText = "🔍 Analyzing image...";
+      output.classList.add("hidden");
+
+      // ⚠️ Model inference removed from frontend for security
+      setTimeout(() => {
+        detectedEl.innerText = "Pending (Backend processing required)";
+        possibilitiesEl.innerHTML = "<li>Model inference handled securely on backend</li>";
+        stepsEl.innerText = "Image analysis is performed server-side for security.";
+        dangerBadge.innerText = "Low";
+        dangerBadge.className =
+          "inline-block px-3 py-1 rounded text-white bg-green-600";
+        summaryEl.innerText =
+          "ℹ️ Frontend demo only. Real inference runs on backend.";
+
+        output.classList.remove("hidden");
+        result.innerText = "";
+      }, 800);
+    }
+
+    imageUpload.addEventListener("change", async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      preview.src = URL.createObjectURL(file);
+      preview.classList.remove("hidden");
+      await analyzeImage(file);
+    });
+  </script>
+</body>
+</html>

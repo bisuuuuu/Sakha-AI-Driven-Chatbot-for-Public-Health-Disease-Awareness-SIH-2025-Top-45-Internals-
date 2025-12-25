@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather & Precautions</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-blue-100 to-green-100 flex justify-center items-center min-h-screen">
+
+  <video autoplay muted loop playsinline id="bg-video" class="absolute inset-0 w-full h-full object-cover -z-10">
+    <source src="images/weather.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="w-full max-w-6xl p-4">
+    <div class="flex justify-center mb-6 gap-3">
+        <button onclick="changeLanguage('en')" class="px-4 py-2 bg-white text-blue-600 font-semibold rounded-lg shadow-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-75">English</button>
+        <button onclick="changeLanguage('hi')" class="px-4 py-2 bg-white text-green-600 font-semibold rounded-lg shadow-md hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-75">हिन्दी</button>
+        <button onclick="changeLanguage('or')" class="px-4 py-2 bg-white text-orange-600 font-semibold rounded-lg shadow-md hover:bg-orange-100 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:ring-opacity-75">ଓଡ଼ିଆ</button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <div class="bg-blue-400 rounded-2xl shadow-xl p-6 border border-green-200 text-center">
+      <h2 id="season-title" class="text-2xl font-bold text-green-700 mb-4"></h2>
+      <div id="season" class="text-lg font-semibold text-green-600 bg-green-50 p-3 rounded-lg shadow-sm">
+      </div>
+    </div>
+
+    <div class="bg-blue-400 rounded-2xl shadow-xl p-6 border border-blue-200 text-center">
+      <h2 id="weather-title" class="text-2xl font-bold text-blue-700 mb-4"></h2>
+      <div id="weather" class="text-lg text-gray-800"></div>
+    </div>
+
+    <div class="bg-blue-400 rounded-2xl shadow-xl p-6 border border-orange-200">
+      <h2 id="seasonal-prec-title" class="text-2xl font-bold text-orange-700 mb-4"></h2>
+      <div id="season-list" class="flex flex-wrap gap-2"></div>
+    </div>
+
+    <div class="bg-blue-400 rounded-2xl shadow-xl p-6 border border-cyan-200">
+      <h2 id="weather-prec-title" class="text-2xl font-bold text-cyan-700 mb-4"></h2>
+      <div id="weather-list" class="flex flex-wrap gap-2"></div>
+    </div>
+  </div>
+</div>
+
+
+  
+  <script>
+    const API_KEY = "0b281b58022487f3cde93eb1cdb716d8"; // 🔑 Replace with your OpenWeatherMap API key
+    const CITY = "Bhubaneswar"; 
+    let currentLanguage = 'en'; // Default language
+
+    const translations = {
+      en: {
+        currentSeason: '🍂 Current Season',
+        currentWeather: '🌦️ Current Weather',
+        seasonalPrecautions: '🍊 Seasonal Precautions',
+        weatherPrecautions: '🛡️ Weather Precautions',
+        detectingSeason: 'Detecting season...',
+        fetchingWeather: 'Fetching weather...',
+        errorFetching: '⚠️ Error fetching weather.',
+        city: 'City:',
+        temperature: 'Temperature:',
+        condition: 'Condition:',
+        spring: '🌸 Spring',
+        monsoon: '🌧️ Monsoon',
+        autumn: '🍁 Autumn',
+        winter: '❄️ Winter',
+        tempHigh: '💧 Drink plenty of water, stay indoors during peak heat.',
+        tempLow: '🧣 Wear warm clothes and avoid cold winds.',
+        tempModerate: '🙂 Weather is moderate, stay hydrated and active.',
+        rain: '🌂 Carry an umbrella, wear waterproof shoes.',
+        clear: '🕶️ Apply sunscreen and wear sunglasses.',
+        snow: '🥾 Wear boots, walk carefully on slippery roads.',
+        haze: '😷 Wear a mask to protect from air pollution.',
+        spring1: '🤧 Allergy chances are high, wear masks if pollen-sensitive.',
+        spring2: '🥗 Maintain a balanced diet to boost immunity.',
+        monsoon1: '🦟 Use mosquito repellents, avoid street food.',
+        monsoon2: '☔ Keep rain gear handy and watch out for waterlogging.',
+        autumn1: '🧥 Weather is pleasant but evenings may be chilly.',
+        autumn2: '🍵 Keep light warm clothes and drink warm fluids.',
+        winter1: '🍲 Eat immunity-boosting foods, keep yourself warm.',
+        winter2: '💧 Stay hydrated even if you don’t feel thirsty.',
+      },
+      hi: {
+        currentSeason: '🍂 वर्तमान ऋतु',
+        currentWeather: '🌦️ वर्तमान मौसम',
+        seasonalPrecautions: '🍊 मौसमी सावधानियां',
+        weatherPrecautions: '🛡️ मौसम संबंधी सावधानियां',
+        detectingSeason: 'ऋतु का पता चल रहा है...',
+        fetchingWeather: 'मौसम की जानकारी मिल रही है...',
+        errorFetching: '⚠️ मौसम की जानकारी प्राप्त करने में त्रुटि।',
+        city: 'शहर:',
+        temperature: 'तापमान:',
+        condition: 'स्थिति:',
+        spring: '🌸 वसंत',
+        monsoon: '🌧️ मानसून',
+        autumn: '🍁 शरद',
+        winter: '❄️ सर्दी',
+        tempHigh: '💧 खूब पानी पिएं, तेज गर्मी के दौरान घर के अंदर रहें।',
+        tempLow: '🧣 गर्म कपड़े पहनें और ठंडी हवाओं से बचें।',
+        tempModerate: '🙂 मौसम सामान्य है, हाइड्रेटेड और सक्रिय रहें।',
+        rain: '🌂 छाता लेकर चलें, वाटरप्रूफ जूते पहनें।',
+        clear: '🕶️ सनस्क्रीन लगाएं और धूप का चश्मा पहनें।',
+        snow: '🥾 बूट पहनें, फिसलन वाली सड़कों पर सावधानी से चलें।',
+        haze: '😷 वायु प्रदूषण से बचने के लिए मास्क पहनें।',
+        spring1: '🤧 एलर्जी की संभावना अधिक है, पराग-संवेदनशील होने पर मास्क पहनें।',
+        spring2: '🥗 रोग प्रतिरोधक क्षमता बढ़ाने के लिए संतुलित आहार बनाए रखें।',
+        monsoon1: '🦟 मच्छर भगाने वाली दवाओं का प्रयोग करें, बाहर के खाने से बचें।',
+        monsoon2: '☔ रेन गियर संभाल कर रखें और जलभराव से सावधान रहें।',
+        autumn1: '🧥 मौसम सुहावना है लेकिन शाम ठंडी हो सकती है।',
+        autumn2: '🍵 हल्के गर्म कपड़े रखें और गर्म तरल पदार्थ पिएं।',
+        winter1: '🍲 रोग प्रतिरोधक क्षमता बढ़ाने वाले खाद्य पदार्थ खाएं, खुद को गर्म रखें।',
+        winter2: '💧 प्यास न लगने पर भी हाइड्रेटेड रहें।',
+      },
+      or: {
+        currentSeason: '🍂 ବର୍ତ୍ତମାନ ଋତୁ',
+        currentWeather: '🌦️ ବର୍ତ୍ତମାନ ପାଣିପାଗ',
+        seasonalPrecautions: '🍊 ଋତୁକାଳୀନ ସତର୍କତା',
+        weatherPrecautions: '🛡️ ପାଣିପାଗ ସତର୍କତା',
+        detectingSeason: 'ଋତୁ ଚିହ୍ନଟ କରାଯାଉଛି...',
+        fetchingWeather: 'ପାଣିପାଗ ଅଣାଯାଉଛି...',
+        errorFetching: '⚠️ ପାଣିପାଗ ଆଣିବାରେ ତ୍ରୁଟି।',
+        city: 'ସହର:',
+        temperature: 'ତାପମାତ୍ରା:',
+        condition: 'ସ୍ଥିତି:',
+        spring: '🌸 ବସନ୍ତ',
+        monsoon: '🌧️ ମୌସୁମୀ',
+        autumn: '🍁 ଶରତ',
+        winter: '❄️ ଶୀତ',
+        tempHigh: '💧 ପ୍ରଚୁର ପାଣି ପିଅନ୍ତୁ, ଅତ୍ୟଧିକ ଗରମ ସମୟରେ ଘରେ ରୁହନ୍ତୁ।',
+        tempLow: '🧣 ଗରମ ପୋଷାକ ପିନ୍ଧନ୍ତୁ ଏବଂ ଥଣ୍ଡା ପବନରୁ ଦୂରେଇ ରୁହନ୍ତୁ।',
+        tempModerate: '🙂 ପାଗ ମଧ୍ୟମ ଅଟେ, ହାଇଡ୍ରେଟେଡ୍ ଏବଂ ସକ୍ରିୟ ରୁହନ୍ତୁ।',
+        rain: '🌂 ଛତା ନିଅନ୍ତୁ, ଜଳରୋଧୀ ଜୋତା ପିନ୍ଧନ୍ତୁ।',
+        clear: '🕶️ ସନସ୍କ୍ରିନ୍ ଲଗାନ୍ତୁ ଏବଂ ସନଗ୍ଲାସ୍ ପିନ୍ଧନ୍ତୁ।',
+        snow: '🥾 ବୁଟ୍ ପିନ୍ଧନ୍ତୁ, ଚିକ୍କଣ ରାସ୍ତାରେ ସାବଧାନତାର ସହିତ ଚାଲନ୍ତୁ।',
+        haze: '😷 ବାୟୁ ପ୍ରଦୂଷଣରୁ ରକ୍ଷା ପାଇବା ପାଇଁ ମାସ୍କ ପିନ୍ଧନ୍ତୁ।',
+        spring1: '🤧 ଆଲର୍ଜି ହେବାର ସମ୍ଭାବନା ଅଧିକ, ପରାଗ ସମ୍ବେଦନଶୀଳ ହେଲେ ମାସ୍କ ପିନ୍ଧନ୍ତୁ।',
+        spring2: '🥗 ରୋଗ ପ୍ରତିରୋଧକ ଶକ୍ତି ବଢାଇବା ପାଇଁ ସନ୍ତୁଳିତ ଖାଦ୍ୟ ଖାଆନ୍ତୁ।',
+        monsoon1: '🦟 ମଶା ଘଉଡାଇବା ପାଇଁ ତେଲ ବ୍ୟବହାର କରନ୍ତୁ, ରାସ୍ତା କଡ଼ ଖାଦ୍ୟରୁ ଦୂରେଇ ରୁହନ୍ତୁ।',
+        monsoon2: '☔ ବର୍ଷା ପାଇଁ ପ୍ରସ୍ତୁତ ରୁହନ୍ତୁ ଏବଂ ଜଳବନ୍ଦୀରୁ ସାବଧାନ ରୁହନ୍ତୁ।',
+        autumn1: '🧥 ପାଗ ସୁଖଦ କିନ୍ତୁ ସନ୍ଧ୍ୟା ଥଣ୍ଡା ହୋଇପାରେ।',
+        autumn2: '🍵 ହାଲୁକା ଗରମ ପୋଷାକ ରଖନ୍ତୁ ଏବଂ ଗରମ ତରଳ ପଦାର୍ଥ ପିଅନ୍ତୁ।',
+        winter1: '🍲 ରୋଗ ପ୍ରତିରୋଧକ ଶକ୍ତି ବଢାଉଥିବା ଖାଦ୍ୟ ଖାଆନ୍ତୁ, ନିଜକୁ ଗରମ ରଖନ୍ତୁ।',
+        winter2: '💧 ଶୋଷ ନ ଲାଗିଲେ ମଧ୍ୟ ହାଇଡ୍ରେଟେଡ୍ ରୁହନ୍ତୁ।',
+      }
+    };
+
+    function changeLanguage(lang) {
+      currentLanguage = lang;
+      // Update all static text content
+      document.getElementById('season-title').innerText = translations[lang].currentSeason;
+      document.getElementById('weather-title').innerText = translations[lang].currentWeather;
+      document.getElementById('seasonal-prec-title').innerText = translations[lang].seasonalPrecautions;
+      document.getElementById('weather-prec-title').innerText = translations[lang].weatherPrecautions;
+      
+      // Re-fetch weather to update dynamic content with the new language
+      fetchWeather();
+    }
+
+    async function fetchWeather() {
+      const weatherDiv = document.getElementById("weather");
+      const lang = currentLanguage;
+      weatherDiv.innerHTML = `<p>${translations[lang].fetchingWeather}</p>`;
+      document.getElementById("season").innerText = translations[lang].detectingSeason;
+
+      try {
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric`;
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Network response not ok");
+
+        const data = await res.json();
+        
+        weatherDiv.innerHTML = `
+          <p class="text-lg"><b>${translations[lang].city}</b> ${data.name}</p>
+          <p class="text-lg"><b>${translations[lang].temperature}</b> ${data.main.temp.toFixed(1)}°C</p>
+          <p class="text-lg"><b>${translations[lang].condition}</b> ${data.weather[0].description}</p>
+        `;
+
+        showPrecautions(data);
+
+      } catch (error) {
+        weatherDiv.innerHTML = `<p class="text-red-500">${translations[lang].errorFetching}</p>`;
+        console.error(error);
+      }
+    }
+
+    function showPrecautions(data) {
+      const lang = currentLanguage;
+      const t = translations[lang]; // Shortcut to current language translations
+      const temp = data.main.temp;
+      const condition = data.weather[0].main.toLowerCase();
+      const month = new Date().getMonth() + 1;
+
+      let weatherPrecKeys = [];
+      let seasonPrecKeys = [];
+      let seasonNameKey = "";
+
+      // 🌡️ Weather-based precaution keys
+      if (temp > 35) weatherPrecKeys.push("tempHigh");
+      else if (temp < 10) weatherPrecKeys.push("tempLow");
+      else weatherPrecKeys.push("tempModerate");
+
+      if (condition.includes("rain")) weatherPrecKeys.push("rain");
+      if (condition.includes("clear")) weatherPrecKeys.push("clear");
+      if (condition.includes("snow")) weatherPrecKeys.push("snow");
+      if (condition.includes("haze")) weatherPrecKeys.push("haze");
+
+      // 🍂 Seasonal Precaution keys (India cycle)
+      if ([3, 4, 5].includes(month)) {
+        seasonNameKey = "spring";
+        seasonPrecKeys.push("spring1", "spring2");
+      } else if ([6, 7, 8, 9].includes(month)) {
+        seasonNameKey = "monsoon";
+        seasonPrecKeys.push("monsoon1", "monsoon2");
+      } else if ([10, 11].includes(month)) {
+        seasonNameKey = "autumn";
+        seasonPrecKeys.push("autumn1", "autumn2");
+      } else {
+        seasonNameKey = "winter";
+        seasonPrecKeys.push("winter1", "winter2");
+      }
+
+      // ✅ Update Season Name
+      document.getElementById("season").innerText = t[seasonNameKey];
+
+      // ✅ Render precautions using keys
+      const renderBadges = (elementId, keys, bgColor, textColor) => {
+        const list = document.getElementById(elementId);
+        list.innerHTML = "";
+        keys.forEach(key => {
+          const span = document.createElement("span");
+          span.textContent = t[key]; // Get translated text
+          span.className = `px-3 py-1 rounded-full text-sm font-medium ${bgColor} ${textColor} shadow`;
+          list.appendChild(span);
+        });
+      };
+
+      renderBadges("weather-list", weatherPrecKeys, "bg-blue-100", "text-blue-800");
+      renderBadges("season-list", seasonPrecKeys, "bg-orange-100", "text-orange-800");
+    }
+
+    // Initial load
+    window.onload = () => {
+      changeLanguage('en'); // Load the page in English by default
+    };
+  </script>
+  
+</body>
+</html>

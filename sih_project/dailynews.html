@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🩺 ସଖା - Daily Health News - India & Asia</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .news-card {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .news-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+  <!-- Header -->
+  <header class="bg-blue-950 text-white py-4 shadow-md">
+    <div class="container mx-auto text-center">
+      <h1 class="text-2xl font-bold">🩺 ସଖା - Health News </h1>
+      <p class="text-sm text-green-100">Latest updates about Health</p>
+    </div>
+  </header>
+
+  <!-- News Section -->
+  <main class="flex-1 container mx-auto p-6">
+    <div id="newsContainer" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <div id="loader" class="text-center text-gray-500 mt-6">⏳ Loading latest health news...</div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-[#081424] py-6 text-center text-gray-400 text-xs lg:text-sm animate__animated animate__fadeInUp">
+    © 2025 🩺 ସଖା. All Rights Reserved.
+  </footer>
+
+  <script>
+  const container = document.getElementById("newsContainer");
+  const loader = document.getElementById("loader");
+
+  // Change RSS URL to fetch Odisha-specific health news
+  const RSS_URL = "https://news.google.com/rss/search?q=Odisha+health&hl=en-IN&gl=IN&ceid=IN:en";
+  const API_URL = `https://api.allorigins.win/get?url=${encodeURIComponent(RSS_URL)}`;
+
+  async function fetchNews() {
+    loader.style.display = "block";
+    container.innerHTML = "";
+
+    try {
+      const res = await fetch(API_URL);
+      const data = await res.json();
+
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(data.contents, "application/xml");
+      const items = [...xml.querySelectorAll("item")];
+
+      loader.style.display = "none";
+
+      if (items.length > 0) {
+        items.slice(0, 9).forEach((item, i) => {
+          const title = item.querySelector("title")?.textContent || "No title";
+          const link = item.querySelector("link")?.textContent || "#";
+          const pubDate = new Date(item.querySelector("pubDate")?.textContent).toLocaleString();
+
+          const card = document.createElement("div");
+          card.className = "news-card bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition p-4 flex flex-col";
+
+          card.innerHTML = `
+            <h2 class="font-bold text-lg mb-2 text-green-700">${title}</h2>
+            <p class="text-gray-500 text-xs mb-3">🕒 ${pubDate}</p>
+            <div class="text-right mt-auto">
+              <a href="${link}" target="_blank" class="text-green-500 hover:text-green-700 text-sm font-semibold">
+                🔗 Read more
+              </a>
+            </div>
+          `;
+
+          container.appendChild(card);
+
+          // Delay reveal animation for each card
+          setTimeout(() => {
+            card.classList.add("show");
+          }, i * 400);
+        });
+      } else {
+        container.innerHTML = `<p class="text-gray-600">No Odisha health news available right now.</p>`;
+      }
+    } catch (err) {
+      loader.style.display = "none";
+      container.innerHTML = `<p class="text-red-500">❌ Error loading news: ${err.message}</p>`;
+    }
+  }
+
+  fetchNews();
+  setInterval(fetchNews, 5 * 60 * 1000);
+</script>
+
+</body>
+</html>

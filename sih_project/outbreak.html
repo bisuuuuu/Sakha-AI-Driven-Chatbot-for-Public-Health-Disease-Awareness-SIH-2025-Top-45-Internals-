@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Odisha Health Alert Map</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f7fafd;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+    }
+
+    .map-container {
+      position: relative;
+      width: 800px;
+      height: 650px;
+      background: url("Odisha_districts_map.svg") no-repeat center/contain;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+
+    /* Alert dots */
+    .alert {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      border: 2px solid white;
+    }
+
+    .green {
+      background: #10b981;
+    }
+
+    .yellow {
+      background: #facc15;
+    }
+
+    .orange {
+      background: #f97316;
+    }
+
+    .red {
+      background: #ef4444;
+    }
+
+    /* Right panel */
+    .panel {
+      width: 380px;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      max-height: 650px;
+      overflow-y: auto;
+    }
+
+    .panel h3 {
+      margin-top: 0;
+      color: #111827;
+    }
+
+    .active-alerts,
+    .active-campaigns {
+      margin-top: 20px;
+      background: #fefce8;
+      padding: 10px;
+      border-radius: 8px;
+    }
+
+    .alert-item {
+      background: #fde68a;
+      padding: 6px;
+      margin: 5px 0;
+      border-radius: 6px;
+    }
+
+    .campaign-card {
+      background: #f3f4f6;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 8px;
+      border-left: 6px solid #22c55e;
+      position: relative;
+    }
+
+    .remove-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+
+    .remove-btn:hover {
+      background: #dc2626;
+    }
+
+    .campaign-form {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .campaign-form input,
+    .campaign-form select {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      background: #2563eb;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #1d4ed8;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+      /* blue gradient */
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 20px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    (function () { if (!window.chatbase || window.chatbase("getState") !== "initialized") { window.chatbase = (...arguments) => { if (!window.chatbase.q) { window.chatbase.q = [] } window.chatbase.q.push(arguments) }; window.chatbase = new Proxy(window.chatbase, { get(target, prop) { if (prop === "q") { return target.q } return (...args) => target(prop, ...args) } }) } const onLoad = function () { const script = document.createElement("script"); script.src = "https://www.chatbase.co/embed.min.js"; script.id = "ecYkZT6rmkY4333Y-DzJc"; script.domain = "www.chatbase.co"; document.body.appendChild(script) }; if (document.readyState === "complete") { onLoad() } else { window.addEventListener("load", onLoad) } })();
+  </script>
+  <!-- Map -->
+  <div class="map-container" id="mapContainer"></div>
+
+  <!-- Info panel -->
+  <div class="panel">
+    <div id="districtInfo">
+      <h3>Select a district</h3>
+      <p><b>Severity:</b> -</p>
+      <p><b>Disease:</b> -</p>
+      <p><b>Cases:</b> -</p>
+    </div>
+
+    <div class="active-alerts" id="activeAlerts">
+      <h4>Active Alerts</h4>
+    </div>
+
+    <button class="btn" id="createCampaignBtn">+ Create Campaign</button>
+
+    <div class="campaign-form" id="campaignForm">
+      <h4>Add New Alert</h4>
+      <select id="districtSelect">
+        <option value="">Select District</option>
+        <option>Angul</option>
+        <option>Balangir</option>
+        <option>Bargarh</option>
+        <option>Deogarh</option>
+        <option>Dhenkanal</option>
+        <option>Jharsuguda</option>
+        <option>Kendujhar</option>
+        <option>Sambalpur</option>
+        <option>Subarnapur</option>
+        <option>Sundargarh</option>
+        <option>Balasore</option>
+        <option>Bhadrak</option>
+        <option>Cuttack</option>
+        <option>Jagatsinghpur</option>
+        <option>Jajpur</option>
+        <option>Kendrapada</option>
+        <option>Khordha</option>
+        <option>Mayurbhanj</option>
+        <option>Nayagarh</option>
+        <option>Puri</option>
+        <option>Boudh</option>
+        <option>Gajapati</option>
+        <option>Ganjam</option>
+        <option>Kalahandi</option>
+        <option>Kandhamal</option>
+        <option>Koraput</option>
+        <option>Malkangiri</option>
+        <option>Nabarangpur</option>
+        <option>Nuapada</option>
+        <option>Rayagada</option>
+      </select>
+      <input type="text" id="diseaseInput" placeholder="Disease">
+      <select id="severitySelect">
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="orange">Orange</option>
+        <option value="red">Red</option>
+      </select>
+      <input type="number" id="casesInput" placeholder="Cases">
+      <button class="btn" type="submit" id="addAlertBtn">Add Alert</button>
+    </div>
+
+    <div class="active-campaigns" id="activeCampaigns">
+      <h4>Active Campaigns</h4>
+    </div>
+  </div>
+
+  <script>
+    // =========================
+// District Coordinates
+// =========================
+const districtCoords = {
+  "Cuttack": { top: 277, left: 545 },
+  "Khordha": { top: 327, left: 543 },
+  "Mayurbhanj": { top: 100, left: 604 },
+  "Puri": { top: 335, left: 588 },
+  "Kendrapada": { top: 270, left: 652 },
+  "Ganjam": { top: 400, left: 410 },
+  "Angul": { top: 227, left: 435 },
+  "Balangir": { top: 285, left: 220 },
+  "Bargarh": { top: 170, left: 300 },
+  "Deogarh": { top: 165, left: 437 },
+  "Dhenkanal": { top: 227, left: 515 },
+  "Jharsuguda": { top: 130, left: 310 },
+  "Kendujhar": { top: 180, left: 530 },
+  "Sambalpur": { top: 180, left: 355 },
+  "Subarnapur": { top: 218, left: 340 },
+  "Sundargarh": { top: 80, left: 360 },
+  "Balasore": { top: 166, left: 679 },
+  "Bhadrak": { top: 220, left: 669 },
+  "Jagatsinghpur": { top: 327, left: 652 },
+  "Jajpur": { top: 251, left: 600 },
+  "Nayagarh": { top: 300, left: 440 },
+  "Boudh": { top: 274, left: 330 },
+  "Gajapati": { top: 440, left: 360 },
+  "Kalahandi": { top: 370, left: 240 },
+  "Kandhamal": { top: 310, left: 337 },
+  "Koraput": { top: 470, left: 210 },
+  "Malkangiri": { top: 560, left: 110 },
+  "Nabarangpur": { top: 410, left: 160 },
+  "Nuapada": { top: 260, left: 164 },
+  "Rayagada": { top: 420, left: 280 }
+};
+
+// =========================
+// Toggle Campaign Form
+// =========================
+document.getElementById("createCampaignBtn").addEventListener("click", () => {
+  const form = document.getElementById("campaignForm");
+  form.style.display = form.style.display === "block" ? "none" : "block";
+});
+
+// =========================
+// Add Alert Handler
+// =========================
+document.getElementById("addAlertBtn").addEventListener("click", async (e) => {
+  e.preventDefault();
+
+  const district = document.getElementById("districtSelect").value;
+  const disease = document.getElementById("diseaseInput").value;
+  const severity = document.getElementById("severitySelect").value;
+  const cases = document.getElementById("casesInput").value;
+
+  if (!district || !disease || !cases) {
+    alert("⚠️ Please fill all fields.");
+    return;
+  }
+
+  const coords = districtCoords[district];
+  if (!coords) {
+    alert("⚠️ Coordinates for this district not defined yet.");
+    return;
+  }
+
+  // 1. Send to backend (WhatsApp/Twilio integration)
+  try {
+    const response = await fetch("http://localhost:5503/send-alert", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ district, disease, severity, cases }),
+    });
+
+    const data = await response.json();
+    if (!data.success) {
+      alert("❌ Error sending alert to backend");
+      return;
+    }
+  } catch (err) {
+    console.error("Backend error:", err);
+    alert("❌ Server not reachable");
+    return;
+  }
+
+  // 2. Create alert dot on map
+  const newAlert = document.createElement("div");
+  newAlert.className = `alert ${severity}`;
+  newAlert.style.top = `${coords.top}px`;
+  newAlert.style.left = `${coords.left}px`;
+  newAlert.dataset.district = district;
+  newAlert.dataset.severity = severity;
+  newAlert.dataset.disease = disease;
+  newAlert.dataset.cases = cases;
+
+  newAlert.addEventListener("click", () => {
+    const districtInfo = document.getElementById("districtInfo");
+    districtInfo.innerHTML = `
+      <h3>${district}</h3>
+      <p><b>Severity:</b> ${severity}</p>
+      <p><b>Disease:</b> ${disease}</p>
+      <p><b>Cases:</b> ${cases}</p>
+    `;
+  });
+
+  document.getElementById("mapContainer").appendChild(newAlert);
+
+  // 3. Add to active alerts
+  const alertList = document.getElementById("activeAlerts");
+  const newItem = document.createElement("div");
+  newItem.className = "alert-item";
+  newItem.innerText = `${disease} - ${district}`;
+  newItem.dataset.district = district;
+  alertList.appendChild(newItem);
+
+  // 4. Add to campaigns
+  const campaignList = document.getElementById("activeCampaigns");
+  const newCampaign = document.createElement("div");
+  newCampaign.className = "campaign-card";
+  newCampaign.dataset.district = district;
+  newCampaign.innerHTML = `
+    <b>${disease} Awareness</b> - ${district} <br>
+    Cases: ${cases} | Status: <span style="color:green">LIVE</span><br>
+    <button class="remove-btn">Remove Campaign</button>
+  `;
+
+  newCampaign.querySelector(".remove-btn").addEventListener("click", () => {
+    newCampaign.remove();
+    newAlert.remove();
+    [...alertList.children].forEach((child) => {
+      if (child.dataset.district === district) {
+        child.remove();
+      }
+    });
+  });
+
+  campaignList.appendChild(newCampaign);
+
+  // 5. Success message
+  alert(`✅ Alert sent for ${district} (${disease})`);
+
+  // 6. Reset form
+  document.getElementById("districtSelect").value = "";
+  document.getElementById("diseaseInput").value = "";
+  document.getElementById("severitySelect").value = "green";
+  document.getElementById("casesInput").value = "";
+  document.getElementById("campaignForm").style.display = "none";
+});
+
+  </script>
+</body>
+
+</html>

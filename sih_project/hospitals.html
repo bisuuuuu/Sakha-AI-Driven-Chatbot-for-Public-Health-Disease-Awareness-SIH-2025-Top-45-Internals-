@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Support - Nearby Hospitals & Medicines</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex flex-col relative">
+
+  <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover -z-10">
+    <source src="./images/hospitals.mp4" type="video/mp4">
+    <img src="./hospitals.jpg" alt="Hospital Background" class="w-full h-full object-cover">
+  </video>
+
+  <div class="absolute inset-0 bg-black bg-opacity-50 -z-10"></div>
+
+  <header class="bg-blue-700 bg-opacity-90 text-white p-6 shadow-lg relative z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-2xl font-bold">🏥 <span data-i18n="portal_title">Sakha Health Support Portal</span></h1>
+      <nav class="space-x-6 flex items-center">
+        <a href="index.html" class="hover:underline" data-i18n="nav_home">Home</a>
+        <a href="emergency.html" class="hover:underline" data-i18n="nav_emergency">Emergency</a>
+        <a href="#" class="hover:underline" data-i18n="nav_contact">Contact</a>
+        
+        <div class="relative inline-block text-left ml-4">
+          <select id="language-selector" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 px-4 rounded-xl shadow-md transition duration-300 ease-in-out cursor-pointer appearance-none pr-8">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी</option>
+            <option value="or">ଓଡ଼ିଆ</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-white">
+            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15 9.293l-1.414-1.414L10 10.586 6.707 7.293 5.293 8.707 9.293 12.95z"/></svg>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="flex-1 container mx-auto p-8 relative z-10 text-white">
+    <section class="text-center mb-12">
+      <h2 class="text-4xl font-bold mb-4" data-i18n="hero_heading">Find the Right Hospital or Medicine Shop Near You</h2>
+      <p class="text-lg" data-i18n="hero_subheading">Choose your health issue or medicine to get instant directions nearby.</p>
+    </section>
+
+    <section class="flex justify-center mb-16">
+      <div class="bg-white bg-opacity-90 shadow-2xl rounded-2xl p-8 w-full max-w-xl text-gray-800">
+        <label for="disease" class="text-lg font-medium text-gray-700 mb-3 block" data-i18n="label_health_issue">
+          Select Your Health Issue
+        </label>
+        <select id="disease"
+          class="w-full p-3 border-2 border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 mb-4">
+          <option value="" data-i18n="option_choose_condition">-- Choose a condition --</option>
+          <option value="cardiology" data-i18n="option_cardiology">❤️ Heart / Cardiology</option>
+          <option value="orthopedic" data-i18n="option_orthopedic">🦴 Bones / Orthopedic</option>
+          <option value="neurology" data-i18n="option_neurology">🧠 Brain / Neurology</option>
+          <option value="ophthalmology" data-i18n="option_ophthalmology">👁️ Eye / Ophthalmology</option>
+          <option value="oncology" data-i18n="option_oncology">🎗️ Cancer / Oncology</option>
+          <option value="gynecology" data-i18n="option_gynecology">🤰 Women’s Health / Gynecology</option>
+          <option value="dentist" data-i18n="option_dentist">🦷 Dental / Dentist</option>
+          <option value="general hospital" data-i18n="option_general_hospital">🏥 General Hospital</option>
+        </select>
+
+        <label for="otherDisease" class="text-lg font-medium text-gray-700 mb-2 block" data-i18n="label_or_enter">
+          Or Enter Condition
+        </label>
+        <input type="text" id="otherDisease" placeholder="Type your condition here..."
+          class="w-full p-3 border-2 border-blue-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 mb-6">
+
+        <button onclick="findHospitals()"
+          class="flex items-center justify-center gap-3 text-lg font-semibold px-5 py-3 rounded-xl w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg hover:from-blue-600 hover:to-blue-700 transition duration-300">
+          <span data-i18n="button_find_hospitals">🔍 Find Hospitals Near Me</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="flex justify-center mb-16">
+      <div class="bg-white bg-opacity-90 shadow-2xl rounded-2xl p-8 w-full max-w-xl text-gray-800">
+        <label for="medicine" class="text-lg font-medium text-gray-700 mb-3 block" data-i18n="label_search_medicine">
+          Search for Medicine
+        </label>
+        <input type="text" id="medicine" placeholder="Type medicine name (e.g. Paracetamol, Cold Medicine)"
+          class="w-full p-3 border-2 border-green-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-green-500 transition duration-200 mb-6">
+
+        <button onclick="findMedicineShops()"
+          class="flex items-center justify-center gap-3 text-lg font-semibold px-5 py-3 rounded-xl w-full bg-gradient-to-r from-green-500 to-green-600 text-white shadow-lg hover:from-green-600 hover:to-green-700 transition duration-300">
+          <span data-i18n="button_find_medicine">💊 Find Medicine Shops Near Me</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="bg-white bg-opacity-90 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 text-gray-800">
+        <h3 class="text-xl font-bold text-blue-700 mb-3" data-i18n="card_emergency_title">🚑 Emergency</h3>
+        <p class="mb-4" data-i18n="card_emergency_text">Dial <span class="font-bold">108</span> for Ambulance services. Available 24/7.</p>
+        <button onclick="smartCall('108')"
+          class="inline-block bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"><span data-i18n="card_emergency_button">📞 Call 108</span></button>
+      </div>
+
+      <div class="bg-white bg-opacity-90 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 text-gray-800">
+        <h3 class="text-xl font-bold text-blue-700 mb-3" data-i18n="card_women_helpline_title">📞 Women Helpline</h3>
+        <p class="mb-4" data-i18n="card_women_helpline_text">For women’s health support, call <span class="font-bold">181</span>.</p>
+        <button onclick="smartCall('181')"
+          class="inline-block bg-pink-500 text-white px-4 py-2 rounded-lg hover:bg-pink-600"><span data-i18n="card_women_helpline_button">📞 Call 181</span></button>
+      </div>
+
+      <div class="bg-white bg-opacity-90 p-6 rounded-2xl shadow-lg hover:shadow-2xl transition duration-300 text-gray-800">
+        <h3 class="text-xl font-bold text-blue-700 mb-3" data-i18n="card_health_tips_title">💊 Health Tips</h3>
+        <p class="mb-4" data-i18n="card_health_tips_text">Stay hydrated, eat balanced meals, and exercise regularly to prevent common illnesses.</p>
+        <button onclick="openTips()"
+          class="inline-block bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600"><span data-i18n="card_health_tips_button">📖 Learn More</span></button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-blue-700 bg-opacity-90 text-white text-center p-4 mt-12 relative z-10">
+    <p><span data-i18n="footer_text">© 2025 Health Support Portal | Designed for Rural & Urban Communities</span></p>
+  </footer>
+
+  <a href="https://wa.me/911234567890?text=Hello%20I%20need%20health%20support"
+    class="fixed bottom-6 right-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-600 transition duration-300"
+    target="_blank">💬</a>
+
+  <div id="tipsModal"
+    class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-lg w-full relative">
+      <button onclick="closeTips()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700 text-xl">✖</button>
+      <h2 class="text-2xl font-bold text-blue-700 mb-4" data-i18n="modal_tips_title">💡 Daily Health Tips</h2>
+      <ul class="list-disc pl-6 text-gray-700 space-y-3">
+        <li data-i18n="tip1">💧 Drink at least 7–8 glasses of water daily.</li>
+        <li data-i18n="tip2">🥦 Eat fruits, vegetables, and whole grains for better immunity.</li>
+        <li data-i18n="tip3">🏃 Exercise at least 30 minutes every day.</li>
+        <li data-i18n="tip4">🛌 Get 7–8 hours of proper sleep.</li>
+        <li data-i18n="tip5">🧼 Wash hands frequently to prevent infections.</li>
+        <li data-i18n="tip6">😌 Take care of mental health — meditate or relax regularly.</li>
+        <li data-i18n="tip7">🚭 Avoid smoking and limit alcohol intake.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="hosptranslate.js">
+    
+  </script>
+</body>
+</html>

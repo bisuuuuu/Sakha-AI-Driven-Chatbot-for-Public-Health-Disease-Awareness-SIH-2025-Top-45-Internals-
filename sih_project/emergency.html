@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🩺 ସଖା - Emergency Guidance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-red-50 font-sans text-gray-800">
+
+    <header class="bg-red-600 text-white text-center py-6">
+    <h1 class="text-3xl font-bold" data-translate="header_title">🩺 Sakha - Emergency Guidance</h1>
+    <p class="mt-2 text-lg" data-translate="header_subtitle">When to call 112 and what to do in medical emergencies</p>
+        <button id="lang-en" class="px-4 py-2 rounded-md bg-red-700 text-white/70 hover:text-white hover:bg-red-600/80 transform hover:scale-105 transition-all duration-300">
+    English
+  </button>
+  
+  <button id="lang-or" class="px-4 py-2 rounded-md bg-red-700 text-white/70 hover:text-white hover:bg-red-600/80 transform hover:scale-105 transition-all duration-300">
+    ଓଡ଼ିଆ
+  </button>
+
+  <button id="lang-hi" class="px-4 py-2 rounded-md bg-red-700 text-white/70 hover:text-white hover:bg-red-600/80 transform hover:scale-105 transition-all duration-300">
+    हिन्दी
+  </button>
+  </header>
+
+  <main class="max-w-4xl mx-auto p-6 space-y-8">
+
+        <section class="bg-red-100 border-l-8 border-red-600 p-6 rounded-lg shadow">
+      <h2 class="text-2xl font-bold text-red-700 mb-4" data-translate="call_112_heading">📞 CALL 112 IMMEDIATELY</h2>
+      <div class="flex flex-col sm:flex-row gap-6">
+        <button onclick="window.location.href='tel:112'" class="bg-red-600 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-red-700" data-translate="call_button">
+          CALL 112
+        </button>
+        <ul class="text-gray-700 space-y-2">
+          <li data-translate="location_tip">📍 <strong>Know Your Location</strong> – Be ready to provide your exact address</li>
+          <li data-translate="calm_tip">😌 <strong>Stay Calm</strong> – Follow dispatcher instructions carefully</li>
+        </ul>
+      </div>
+    </section>
+
+        <section>
+      <h2 class="text-2xl font-bold text-red-700 mb-4" data-translate="warning_signs_heading">⚠️ When to Call 112 – Emergency Warning Signs</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="bg-white shadow p-4 rounded-lg border">
+          <h3 class="font-semibold text-red-600 mb-2" data-translate="breathing_heading">Breathing & Circulation</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li data-translate="breathing_list1">Difficulty breathing or shortness of breath</li>
+            <li data-translate="breathing_list2">Chest pain or pressure</li>
+            <li data-translate="breathing_list3">Rapid or irregular heartbeat</li>
+            <li data-translate="breathing_list4">Severe bleeding that won’t stop</li>
+          </ul>
+        </div>
+        <div class="bg-white shadow p-4 rounded-lg border">
+          <h3 class="font-semibold text-red-600 mb-2" data-translate="neurological_heading">Neurological</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li data-translate="neurological_list1">Loss of consciousness or altered mental state</li>
+            <li data-translate="neurological_list2">Severe headache with stiff neck</li>
+            <li data-translate="neurological_list3">Seizures</li>
+            <li data-translate="neurological_list4">Slurred speech or confusion</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+        <section>
+      <h2 class="text-2xl font-bold text-red-700 mb-4" data-translate="do_dont_heading">📝 What to Do While Waiting for Emergency Services</h2>
+      <div class="grid md:grid-cols-2 gap-6">
+                  <div class="bg-green-50 border-l-8 border-green-600 p-4 rounded-lg shadow">
+          <h3 class="font-semibold text-green-700 mb-2" data-translate="do_heading">✅ DO:</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li data-translate="do_list1">Stay with the injured person</li>
+            <li data-translate="do_list2">Keep them calm and comfortable</li>
+            <li data-translate="do_list3">Apply direct pressure to bleeding wounds</li>
+            <li data-translate="do_list4">Monitor breathing and pulse</li>
+            <li data-translate="do_list5">Follow dispatcher instructions</li>
+          </ul>
+        </div>
+                  <div class="bg-red-50 border-l-8 border-red-600 p-4 rounded-lg shadow">
+          <h3 class="font-semibold text-red-700 mb-2" data-translate="dont_heading">❌ DON'T:</h3>
+          <ul class="list-disc pl-5 space-y-1">
+            <li data-translate="dont_list1">Move someone with suspected spinal injury</li>
+            <li data-translate="dont_list2">Remove embedded objects</li>
+            <li data-translate="dont_list3">Give food/water to unconscious person</li>
+            <li data-translate="dont_list4">Leave the person alone</li>
+            <li data-translate="dont_list5">Attempt untrained procedures</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+        <section>
+      <h2 class="text-2xl font-bold text-red-700 mb-4" data-translate="numbers_heading">📌 Important Emergency Numbers</h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        <div class="bg-white border shadow p-4 rounded-lg text-center">
+          <h3 class="font-semibold text-red-600 mb-2" data-translate="emerg_services_heading">Emergency Services</h3>
+          <p class="text-2xl font-bold">112</p>
+          <p class="text-sm text-gray-600" data-translate="emerg_services_desc">Fire, Police, Medical Emergency</p>
+        </div>
+        <div class="bg-white border shadow p-4 rounded-lg text-center">
+          <h3 class="font-semibold text-red-600 mb-2" data-translate="poison_heading">Poison Control</h3>
+          <p class="text-2xl font-bold">1800-11-6117</p>
+          <p class="text-sm text-gray-600" data-translate="poison_desc">National Toll-Free Helpline</p>
+        </div>
+        <div class="bg-white border shadow p-4 rounded-lg text-center">
+          <h3 class="font-semibold text-red-600 mb-2" data-translate="crisis_heading">Mental Health Helpline</h3>
+          <p class="text-2xl font-bold">1800-599-0019</p>
+          <p class="text-sm text-gray-600" data-translate="crisis_desc">Govt. of India 24/7 Helpline</p>
+        </div>
+      </div>
+    </section>
+
+        <section class="bg-yellow-100 border-l-8 border-yellow-500 p-4 rounded-lg shadow">
+      <p class="text-gray-800" data-translate="reminder_text">
+        ⚠️ <strong>Remember:</strong> When in doubt, call 112. It's better to be safe and let professionals determine if it's an emergency. 
+        Emergency services would rather respond to a false alarm than miss a real emergency.
+      </p>
+    </section>
+
+  </main>
+
+    <script>
+    const translations = {
+      'en': {
+        'header_title': '🩺 Sakha - Emergency Guidance',
+        'header_subtitle': 'When to call 112 and what to do in medical emergencies',
+        'call_112_heading': '📞 CALL 112 IMMEDIATELY',
+        'call_button': 'CALL 112',
+        'location_tip': '📍 Know Your Location – Be ready to provide your exact address',
+        'calm_tip': '😌 Stay Calm – Follow dispatcher instructions carefully',
+        'warning_signs_heading': '⚠️ When to Call 112 – Emergency Warning Signs',
+        'breathing_heading': 'Breathing & Circulation',
+        'breathing_list1': 'Difficulty breathing or shortness of breath',
+        'breathing_list2': 'Chest pain or pressure',
+        'breathing_list3': 'Rapid or irregular heartbeat',
+        'breathing_list4': 'Severe bleeding that won’t stop',
+        'neurological_heading': 'Neurological',
+        'neurological_list1': 'Loss of consciousness or altered mental state',
+        'neurological_list2': 'Severe headache with stiff neck',
+        'neurological_list3': 'Seizures',
+        'neurological_list4': 'Slurred speech or confusion',
+        'do_dont_heading': '📝 What to Do While Waiting for Emergency Services',
+        'do_heading': '✅ DO:',
+        'do_list1': 'Stay with the injured person',
+        'do_list2': 'Keep them calm and comfortable',
+        'do_list3': 'Apply direct pressure to bleeding wounds',
+        'do_list4': 'Monitor breathing and pulse',
+        'do_list5': 'Follow dispatcher instructions',
+        'dont_heading': '❌ DON\'T:',
+        'dont_list1': 'Move someone with suspected spinal injury',
+        'dont_list2': 'Remove embedded objects',
+        'dont_list3': 'Give food/water to unconscious person',
+        'dont_list4': 'Leave the person alone',
+        'dont_list5': 'Attempt untrained procedures',
+        'numbers_heading': '📌 Important Emergency Numbers',
+        'emerg_services_heading': 'Emergency Services',
+        'emerg_services_desc': 'Fire, Police, Medical Emergency',
+        'poison_heading': 'Poison Control',
+        'poison_desc': 'National Toll-Free Helpline',
+        'crisis_heading': 'Mental Health Helpline',
+        'crisis_desc': 'Govt. of India 24/7 Helpline',
+        'reminder_text': '⚠️ Remember: When in doubt, call 112. It\'s better to be safe and let professionals determine if it\'s an emergency. Emergency services would rather respond to a false alarm than miss a real emergency.'
+      },
+      'or': {
+        'header_title': '🩺 ସଖା - ଜରୁରୀକାଳୀନ ମାର୍ଗଦର୍ଶନ',
+        'header_subtitle': 'କେବେ 112 କୁ ଡାକିବେ ଏବଂ ଚିକିତ୍ସା ଜରୁରୀକାଳୀନ ପରିସ୍ଥିତିରେ କଣ କରିବେ',
+        'call_112_heading': '📞 ତୁରନ୍ତ 112 କୁ କଲ କରନ୍ତୁ',
+        'call_button': '112 କୁ ଡାକନ୍ତୁ',
+        'location_tip': '📍 ଆପଣଙ୍କ ସ୍ଥାନ ଜାଣନ୍ତୁ – ଆପଣଙ୍କର ସଠିକ୍ ଠିକଣା ପ୍ରଦାନ କରିବାକୁ ପ୍ରସ୍ତୁତ ରୁହନ୍ତୁ',
+        'calm_tip': '😌 ଶାନ୍ତ ରୁହନ୍ତୁ – ଡିସପାଚର୍ ନିର୍ଦ୍ଦେଶକୁ ଯତ୍ନର ସହ ପାଳନ କରନ୍ତୁ',
+        'warning_signs_heading': '⚠️ କେବେ 112 କୁ କଲ୍ କରିବେ – ଜରୁରୀକାଳୀନ ସତର୍କ ସଙ୍କେତ',
+        'breathing_heading': 'ଶ୍ୱାସକ୍ରିୟା ଏବଂ ରକ୍ତ ସଞ୍ଚାଳନ',
+        'breathing_list1': 'ଶ୍ୱାସକ୍ରିୟାରେ ଅସୁବିଧା କିମ୍ବା ନିଶ୍ୱାସ ନେବାରେ ଅସୁବିଧା',
+        'breathing_list2': 'ଛାତିରେ ଯନ୍ତ୍ରଣା କିମ୍ବା ଚାପ',
+        'breathing_list3': 'ଦୃତ ବା ଅନିୟମିତ ହୃଦସ୍ପନ୍ଦନ',
+        'breathing_list4': 'ପ୍ରବଳ ରକ୍ତସ୍ରାବ ଯାହା ବନ୍ଦ ହେବ ନାହିଁ',
+        'neurological_heading': 'ସ୍ନାୟୁଗତ',
+        'neurological_list1': 'ଚେତନା ହରାଇବା କିମ୍ବା ମାନସିକ ସ୍ଥିତିରେ ପରିବର୍ତ୍ତନ',
+        'neurological_list2': 'ବେକରେ କଷ୍ଟ ସହିତ ପ୍ରବଳ ମୁଣ୍ଡବିନ୍ଧା',
+        'neurological_list3': 'ବାତ',
+        'neurological_list4': 'ଅସ୍ପଷ୍ଟ କଥାବାର୍ତ୍ତା କିମ୍ବା ଦ୍ୱନ୍ଦ୍ୱ',
+        'do_dont_heading': '📝 ଜରୁରୀକାଳୀନ ସେବା ଅପେକ୍ଷାରେ ଥିବାବେଳେ କଣ କରିବେ',
+        'do_heading': '✅ କରନ୍ତୁ:',
+        'do_list1': 'ଆହତ ବ୍ୟକ୍ତିଙ୍କ ସହିତ ରୁହନ୍ତୁ',
+        'do_list2': 'ସେମାନଙ୍କୁ ଶାନ୍ତ ଓ ଆରାମଦାୟକ ରଖନ୍ତୁ',
+        'do_list3': 'ରକ୍ତସ୍ରାବ ହେଉଥିବା କ୍ଷତ ଉପରେ ସିଧାସଳଖ ଚାପ ପ୍ରୟୋଗ କରନ୍ତୁ',
+        'do_list4': 'ଶ୍ୱାସକ୍ରିୟା ଏବଂ ନାଡ଼ିକୁ ତଦାରଖ କରନ୍ତୁ',
+        'do_list5': 'ଡିସପାଚର୍ ନିର୍ଦ୍ଦେଶ ପାଳନ କରନ୍ତୁ',
+        'dont_heading': '❌ କରନ୍ତୁ ନାହିଁ:',
+        'dont_list1': 'ମେରୁଦଣ୍ଡରେ ଆଘାତ ଲାଗିଥିବା ସନ୍ଦେହ କରାଯାଉଥିବା ବ୍ୟକ୍ତିଙ୍କୁ ହଟାନ୍ତୁ ନାହିଁ',
+        'dont_list2': 'ପୋତି ହୋଇ ରହିଥିବା ବସ୍ତୁକୁ ବାହାର କରନ୍ତୁ ନାହିଁ',
+        'dont_list3': 'ଅଚେତ ବ୍ୟକ୍ତିଙ୍କୁ ଖାଦ୍ୟ/ପାଣି ଦିଅନ୍ତୁ ନାହିଁ',
+        'dont_list4': 'ବ୍ୟକ୍ତିଙ୍କୁ ଏକା ଛାଡନ୍ତୁ ନାହିଁ',
+        'dont_list5': 'ଅପ୍ରଶିକ୍ଷିତ ପ୍ରଣାଳୀ ଚେଷ୍ଟା କରନ୍ତୁ ନାହିଁ',
+        'numbers_heading': '📌 ଗୁରୁତ୍ୱପୂର୍ଣ୍ଣ ଜରୁରୀକାଳୀନ ନମ୍ବର',
+        'emerg_services_heading': 'ଜରୁରୀକାଳୀନ ସେବା',
+        'emerg_services_desc': 'ଅଗ୍ନିଶମ, ପୋଲିସ, ଚିକିତ୍ସା ଜରୁରୀକାଳୀନ',
+        'poison_heading': 'ବିଷ ନିୟନ୍ତ୍ରଣ',
+        'poison_desc': 'ଜାତୀୟ ଟୋଲ୍ ଫ୍ରି ହେଲ୍ପଲାଇନ୍',
+        'crisis_heading': 'ମାନସିକ ସ୍ୱାସ୍ଥ୍ୟ ହେଲ୍ପଲାଇନ',
+        'crisis_desc': 'ଭାରତ ସରକାର 24/7 ହେଲ୍ପଲାଇନ',
+        'reminder_text': '⚠️ ମନେରଖନ୍ତୁ: ଯେତେବେଳେ ସନ୍ଦେହ ହେବ, 112 କୁ କଲ କରନ୍ତୁ। ଏହା ସୁରକ୍ଷିତ ରହିବା ଏବଂ ବୃତ୍ତିଗତମାନଙ୍କୁ ନିର୍ଣ୍ଣୟ କରିବାକୁ ଦେବା ଭଲ ଯେ ଏହା ଏକ ଜରୁରୀକାଳୀନ ପରିସ୍ଥିତି କି ନୁହେଁ। ଜରୁରୀକାଳୀନ ସେବା ଏକ ପ୍ରକୃତ ଜରୁରୀକାଳୀନ ପରିସ୍ଥିତିକୁ ଛାଡିବା ଅପେକ୍ଷା ଏକ ମିଥ୍ୟା ସତର୍କତାକୁ ପ୍ରତିକ୍ରିୟା କରିବାକୁ ପସନ୍ଦ କରେ।'
+      },
+      'hi': {
+        'header_title': '🩺 सखा - आपातकालीन मार्गदर्शन',
+        'header_subtitle': 'चिकित्सा आपात स्थितियों में 112 पर कब कॉल करें और क्या करें',
+        'call_112_heading': '📞 तुरंत 112 पर कॉल करें',
+        'call_button': '112 पर कॉल करें',
+        'location_tip': '📍 अपना स्थान जानें – अपना सटीक पता बताने के लिए तैयार रहें',
+        'calm_tip': '😌 शांत रहें – डिस्पैचर के निर्देशों का ध्यानपूर्वक पालन करें',
+        'warning_signs_heading': '⚠️ 112 पर कब कॉल करें – आपातकालीन चेतावनी संकेत',
+        'breathing_heading': 'सांस और परिसंचरण',
+        'breathing_list1': 'सांस लेने में कठिनाई या सांस फूलना',
+        'breathing_list2': 'सीने में दर्द या दबाव',
+        'breathing_list3': 'तेज या अनियमित दिल की धड़कन',
+        'breathing_list4': 'गंभीर रक्तस्राव जो नहीं रुकता',
+        'neurological_heading': 'स्नायविक',
+        'neurological_list1': 'चेतना का नुकसान या बदली हुई मानसिक स्थिति',
+        'neurological_list2': 'गर्दन में अकड़न के साथ गंभीर सिरदर्द',
+        'neurological_list3': 'दौरे',
+        'neurological_list4': 'अस्पष्ट भाषण या भ्रम',
+        'do_dont_heading': '📝 आपातकालीन सेवाओं की प्रतीक्षा करते समय क्या करें',
+        'do_heading': '✅ करें:',
+        'do_list1': 'घायल व्यक्ति के साथ रहें',
+        'do_list2': 'उन्हें शांत और आरामदायक रखें',
+        'do_list3': 'बहते घावों पर सीधा दबाव डालें',
+        'do_list4': 'सांस और नाड़ी की निगरानी करें',
+        'do_list5': 'डिस्पैचर के निर्देशों का पालन करें',
+        'dont_heading': '❌ न करें:',
+        'dont_list1': 'संदिग्ध रीढ़ की हड्डी की चोट वाले व्यक्ति को न हिलाएं',
+        'dont_list2': 'फंसी हुई वस्तुओं को न निकालें',
+        'dont_list3': 'बेहोश व्यक्ति को भोजन/पानी न दें',
+        'dont_list4': 'व्यक्ति को अकेला न छोड़ें',
+        'dont_list5': 'अप्रशिक्षित प्रक्रियाओं का प्रयास न करें',
+        'numbers_heading': '📌 महत्वपूर्ण आपातकालीन नंबर',
+        'emerg_services_heading': 'आपातकालीन सेवाएँ',
+        'emerg_services_desc': 'अग्नि, पुलिस, चिकित्सा आपातकाल',
+        'poison_heading': 'जहर नियंत्रण',
+        'poison_desc': 'राष्ट्रीय टोल-फ्री हेल्पलाइन',
+        'crisis_heading': 'मानसिक स्वास्थ्य हेल्पलाइन',
+        'crisis_desc': 'भारत सरकार 24/7 हेल्पलाइन',
+        'reminder_text': '⚠️ याद रखें: जब संदेह हो, तो 112 पर कॉल करें। सुरक्षित रहना और पेशेवरों को यह तय करने देना बेहतर है कि यह आपातकाल है या नहीं। आपातकालीन सेवाएं एक वास्तविक आपातकाल को चूकने के बजाय एक झूठे अलार्म का जवाब देना पसंद करेंगी।'
+      }
+    };
+
+    function translatePage(language) {
+      document.querySelectorAll('[data-translate]').forEach(element => {
+        const key = element.getAttribute('data-translate');
+        if (translations[language] && translations[language][key]) {
+          // Use innerHTML for keys that contain HTML tags like <strong>
+          if (key === 'location_tip' || key === 'calm_tip' || key === 'reminder_text') {
+            element.innerHTML = translations[language][key];
+          } else {
+            element.textContent = translations[language][key];
+          }
+        }
+      });
+    }
+
+    document.getElementById('lang-en').addEventListener('click', () => {
+      translatePage('en');
+    });
+    document.getElementById('lang-or').addEventListener('click', () => {
+      translatePage('or');
+    });
+    document.getElementById('lang-hi').addEventListener('click', () => {
+      translatePage('hi');
+    });
+
+    // Added a small fix to the translate function to correctly render bold text.
+    // Initial page load: Set to English by default
+    translatePage('en');
+    // The classes for the two button states
+const activeClasses = 'px-5 py-2 rounded-full bg-white text-red-600 font-semibold shadow-sm transition-all duration-300';
+const inactiveClasses = 'px-5 py-2 rounded-full text-white/80 hover:bg-white/10 hover:text-white transition-all duration-300';
+
+// Get all the buttons
+const langButtons = document.querySelectorAll('.flex button');
+
+langButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    // First, set all buttons to the inactive style
+    langButtons.forEach(btn => {
+      btn.className = inactiveClasses;
+    });
+
+    // Then, set the clicked button to the active style
+    button.className = activeClasses;
+
+    
+  });
+});
+</script>
+
+</body>
+</html>

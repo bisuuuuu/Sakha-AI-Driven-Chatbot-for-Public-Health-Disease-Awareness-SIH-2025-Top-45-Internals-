@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sakha Health Quiz</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #1a202c;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .answer-option {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .answer-option:hover {
+            transform: translateY(-2px);
+        }
+
+        .answer-option.correct {
+            background: rgba(4, 120, 87, 0.6);
+            border-color: #34d399;
+        }
+
+        .answer-option.incorrect {
+            background: rgba(153, 27, 27, 0.6);
+            border-color: #ef4444;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .progress-bar-container {
+            height: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 9999px;
+            overflow: hidden;
+        }
+
+        #progress-bar {
+            background-color: #38a169;
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+            border-radius: 9999px;
+        }
+
+        .language-switcher button {
+            transition: all 0.2s;
+            font-weight: 500;
+        }
+        .language-switcher button.active {
+            font-weight: 700;
+            color: #38a169;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+        }
+
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 12px 24px;
+            background-color: #2d3748;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .message-box.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-white flex flex-col justify-between items-center min-h-screen">
+    <main class="w-full max-w-xl mx-auto py-8 px-4 flex-grow flex flex-col items-center justify-center">
+
+        <!-- Language Switcher -->
+        <div class="language-switcher flex space-x-4 mb-8">
+            <button class="lang-btn text-white/60 hover:text-white" onclick="setLanguage('en')">EN</button>
+            <button class="lang-btn text-white/60 hover:text-white" onclick="setLanguage('or')">ଓଡିଆ</button>
+            <button class="lang-btn text-white/60 hover:text-white" onclick="setLanguage('hi')">हिन्दी</button>
+        </div>
+
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl font-bold">🩺 Sakha</h1>
+            <p class="text-white/80 text-sm">Digital Health Friend</p>
+            <h2 class="text-white text-lg mt-4"><i class="fas fa-heartbeat mr-2"></i>Health Awareness Quiz</h2>
+        </header>
+
+        <!-- Welcome Screen -->
+        <section id="welcome-screen" class="w-full text-center fade-in">
+            <div class="glass-card rounded-3xl p-8 mb-8">
+                <h2 class="text-4xl font-bold mb-4">Welcome to Sakha Health Quiz</h2>
+                <p class="text-white/80 text-lg mb-6">Test your knowledge & learn health facts while having fun!</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="glass-card rounded-xl p-4 flex flex-col items-center">
+                        <i class="fas fa-question-circle text-2xl mb-2 text-blue-400"></i>
+                        <p class="text-sm font-semibold">10 Questions</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4 flex flex-col items-center">
+                        <i class="fas fa-clock text-2xl mb-2 text-purple-400"></i>
+                        <p class="text-sm font-semibold">No Time Limit</p>
+                    </div>
+                    <div class="glass-card rounded-xl p-4 flex flex-col items-center">
+                        <i class="fas fa-certificate text-2xl mb-2 text-green-400"></i>
+                        <p class="text-sm font-semibold">Get Certified</p>
+                    </div>
+                </div>
+                <button id="start-quiz" class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-play mr-2"></i>Start Quiz
+                </button>
+            </div>
+        </section>
+
+        <!-- Quiz Screen -->
+        <section id="quiz-screen" class="w-full hidden fade-in">
+            <div class="w-full flex justify-between items-center mb-4">
+                <div class="flex items-center text-white/80">
+                    <i class="fas fa-question mr-1"></i>Question <span id="current-question">1</span>/<span id="total-questions">10</span>
+                </div>
+                <div class="flex items-center text-white/80">
+                    <i class="fas fa-star mr-1 text-yellow-300"></i>Score: <span id="current-score">0</span>
+                </div>
+            </div>
+            <div class="progress-bar-container mb-8">
+                <div id="progress-bar"></div>
+            </div>
+            
+            <div id="question-card" class="glass-card rounded-3xl p-8 w-full">
+                <div class="flex items-center justify-center space-x-4 mb-6">
+                    <i id="question-icon" class="text-white text-xl"></i>
+                    <h3 id="question-text" class="text-2xl font-semibold text-center"></h3>
+                </div>
+                
+                <div id="answer-options" class="grid gap-4">
+                    <!-- Options will be injected here by JS -->
+                </div>
+                
+                <div id="explanation" class="hidden mt-6 text-white/80">
+                    <h4 class="text-lg font-semibold mb-2"><i class="fas fa-lightbulb mr-2"></i>Explanation</h4>
+                    <p id="explanation-text" class="text-sm"></p>
+                </div>
+                
+                <button id="next-question" class="hidden w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full mt-8 transition-all duration-300 transform hover:scale-105">
+                    Next Question <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- Results Screen -->
+        <section id="results-screen" class="w-full text-center hidden">
+            <div class="glass-card rounded-3xl p-8 fade-in">
+                <h2 class="text-4xl font-bold mb-4">Quiz Completed!</h2>
+                <div class="flex items-center justify-center mb-6">
+                    <span id="results-icon" class="text-5xl mr-4"></span>
+                    <div>
+                        <p class="text-2xl font-bold">Your Score</p>
+                        <p class="text-4xl font-bold text-green-400">
+                            <span id="final-score">0</span>/<span id="total-score">10</span>
+                        </p>
+                        <p id="score-percentage" class="text-sm text-white/60 mt-1">0%</p>
+                    </div>
+                </div>
+
+                <div id="score-analysis" class="text-left mb-6">
+                    <h3 class="text-lg font-semibold mb-2"><i class="fas fa-chart-line mr-2"></i>Your Performance</h3>
+                    <p id="performance-message" class="text-white/80 text-sm mb-4"></p>
+                    <div class="flex justify-between text-base font-semibold">
+                        <div class="text-green-400">
+                            <span id="correct-answers">0</span>
+                            <div class="text-sm font-normal text-white/60">Correct</div>
+                        </div>
+                        <div class="text-red-400">
+                            <span id="incorrect-answers">0</span>
+                            <div class="text-sm font-normal text-white/60">Incorrect</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="glass-card rounded-xl p-4 mt-6">
+                    <p class="font-semibold text-white/80 text-sm mb-1">Health Tip:</p>
+                    <p id="health-tip" class="text-white text-md italic"></p>
+                </div>
+
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <button id="restart-quiz" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-redo mr-2"></i>Take Quiz Again
+                    </button>
+                    <button id="share-results" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-full transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-share mr-2"></i>Share Results
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center text-white/50 text-xs py-4">
+        <p>© 2025 Sakha - AI Health Quiz | Improving Health Awareness</p>
+    </footer>
+
+    <!-- Temporary message box for copy-to-clipboard -->
+    <div id="message-box" class="message-box"></div>
+     <script src="script.js"></script>
+    </body>
+</html>

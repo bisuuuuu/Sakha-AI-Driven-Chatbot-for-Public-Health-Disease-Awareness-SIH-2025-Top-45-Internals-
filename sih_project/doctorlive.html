@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odisha Govt Doctors Directory</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .locked-profile {
+      position: relative;
+      width: 60px;
+      height: 60px;
+    }
+    .locked-profile img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+    }
+    .locked-profile::after {
+      content: '🔒';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.2rem;
+      color: white;
+      text-shadow: 0 0 3px black;
+    }
+    .doctor-card {
+      transition: all 0.3s;
+    }
+    .doctor-card:hover {
+      box-shadow: 0 0 15px #f59e0b;
+      transform: scale(1.02);
+    }
+    .highlight {
+      border: 2px solid #f59e0b;
+      background-color: #fef3c7;
+    }
+    /* Hide default Google Translate widget completely */
+    #google_translate_element {
+      display: none !important;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-r from-green-400 via-blue-400 to-yellow-300 min-h-screen">
+
+  <div class="max-w-5xl mx-auto p-4">
+
+    <!-- Search + Language Selector -->
+    <div class="flex flex-col sm:flex-row items-center justify-between mb-4 sticky top-0 z-10 p-2 rounded-xl" style="background-color: rgba(255, 255, 255, 0.2);">
+      <input type="text" id="searchInput" placeholder="Search by name or specialty..." class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-2/3 mb-2 sm:mb-0">
+      
+      <!-- Custom Language Dropdown -->
+      <div class="relative sm:ml-4 w-full sm:w-1/3">
+        <button id="langToggle" class="flex items-center justify-between w-full bg-yellow-200 border-2 border-yellow-500 px-3 py-2 rounded-lg shadow hover:bg-yellow-300 transition">
+          <span class="flex items-center space-x-2">
+            🌍 <span id="currentLang">Select Language</span>
+          </span>
+          <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div id="langMenu" class="absolute right-0 mt-2 w-full bg-white border border-yellow-400 rounded-lg shadow-lg hidden z-20">
+          <button data-lang="en" class="block w-full text-left px-4 py-2 hover:bg-yellow-100">English</button>
+          <button data-lang="hi" class="block w-full text-left px-4 py-2 hover:bg-yellow-100">हिंदी</button>
+          <button data-lang="or" class="block w-full text-left px-4 py-2 hover:bg-yellow-100">ଓଡ଼ିଆ</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Doctors List -->
+  <div id="doctorList" class="space-y-4 max-h-[80vh] overflow-y-auto">
+
+    <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Somya Ranjan Das</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>Neurologist</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">18 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 45</p>
+          <p><strong>Email:</strong> somya@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 9876543210</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>Epilepsy, Stroke</span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+    <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Biswa prakash rout</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>Cardiologist</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">18 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 35</p>
+          <p><strong>Email:</strong> bisu@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 6371745763</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>heart </span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Debasis mishra</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>Pedetrician</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">9 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 45</p>
+          <p><strong>Email:</strong> debasis@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 9812343210</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>Care ,Growth</span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="doctorList" class="space-y-4 max-h-[80vh] overflow-y-auto">
+
+      <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Amlan rout</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>Orthopedic</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">8 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 45</p>
+          <p><strong>Email:</strong> amlan@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 98765477684</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>Epilepsy</span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="doctorList" class="space-y-4 max-h-[80vh] overflow-y-auto">
+
+      <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Palakh Agarwal</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>skin care</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">18 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 45</p>
+          <p><strong>Email:</strong> palakh@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 9873456410</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>skin related </span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="doctorList" class="space-y-4 max-h-[80vh] overflow-y-auto">
+
+      <div class="doctor-card flex flex-col md:flex-row bg-white rounded shadow p-4 items-center md:items-start space-y-2 md:space-y-0 md:space-x-4">
+        <div class="flex flex-col items-center w-24">
+          <div class="locked-profile mb-2"><img src="https://via.placeholder.com/60" alt="Doctor"></div>
+          <p class="text-center font-semibold text-sm doctor-name">Dr. Sitakanta Nayak</p>
+          <div class="flex mt-1 space-x-1">
+            <span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-yellow-400">⭐</span><span class="text-gray-300">⭐</span>
+          </div>
+        </div>
+        <div class="flex-1 bg-gray-50 p-4 rounded shadow-inner w-full">
+          <p>
+            <strong>Designation:</strong>
+            <span>Orthopedix</span>
+            <span class="ml-2 px-2 py-1 bg-green-200 rounded text-xs font-semibold">18 yrs exp</span>
+          </p>
+          <p><strong>Age:</strong> 45</p>
+          <p><strong>Email:</strong> sitakanta@example.com</p>
+          <p><strong>WhatsApp:</strong> +91 8328876865</p>
+          <p>
+            <strong>Specialties:</strong>
+            <span>Epilepsy</span>
+          </p>
+          <div class="flex space-x-2 mt-2 flex-wrap">
+            <button class="bg-red-500 text-white px-3 py-1 rounded text-sm">📞 Call</button>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm">🎥 Video</button>
+            <button class="bg-green-500 text-white px-3 py-1 rounded text-sm">✉️ Email</button>
+            <button class="bg-teal-500 text-white px-3 py-1 rounded text-sm">💬 WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+  <!-- Hidden Google Translate Element -->
+  <div id="google_translate_element"></div>
+
+  <!-- Google Translate Script -->
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'en',
+        includedLanguages: 'en,hi,or',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script>
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    const doctorCards = Array.from(document.querySelectorAll('.doctor-card'));
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      doctorCards.forEach(card => {
+        const cardText = card.textContent.toLowerCase();
+        if (cardText.includes(query)) {
+          card.style.display = 'flex';
+          card.classList.add('highlight');
+        } else {
+          card.style.display = 'none';
+          card.classList.remove('highlight');
+        }
+      });
+    });
+
+    // Custom dropdown logic
+    const langToggle = document.getElementById('langToggle');
+    const langMenu = document.getElementById('langMenu');
+    const currentLang = document.getElementById('currentLang');
+
+    langToggle.addEventListener('click', () => {
+      langMenu.classList.toggle('hidden');
+    });
+
+    document.querySelectorAll('#langMenu button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const lang = btn.getAttribute('data-lang');
+        currentLang.textContent = btn.textContent;
+
+        // Trigger Google Translate
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+          select.value = lang;
+          select.dispatchEvent(new Event('change'));
+        }
+
+        langMenu.classList.add('hidden');
+      });
+    });
+
+    // Close dropdown on outside click
+    document.addEventListener('click', (e) => {
+      if (!langToggle.contains(e.target) && !langMenu.contains(e.target)) {
+        langMenu.classList.add('hidden');
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🩺 ସଖା - Public Health Chatbot</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+  <style>
+    /* --- 3D Team Animation Styles --- */
+    .team-container {
+      position: relative;
+      height: 80vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .title {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 6rem;
+      font-weight: 900;
+      color: #ffffff;
+      z-index: 0;
+      pointer-events: none;
+      text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+
+    .gallery {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      perspective: 2000px;
+      transform-style: preserve-3d;
+    }
+
+    .card {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 220px;
+      height: 300px;
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      background: #fff;
+    }
+
+    .card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    .info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px;
+      font-size: 0.9rem;
+      border-radius: 0 0 15px 15px;
+      display: none;
+      text-align: left;
+    }
+
+    .card:hover .info {
+      display: block;
+    }
+
+    .footer-team {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .team,
+    .problem {
+      margin: 5px 0;
+      font-size: 1.2rem;
+    }
+
+    .info a {
+      color: #1e90ff;
+      text-decoration: underline;
+      font-weight: bold;
+      transition: color 0.3s ease;
+    }
+
+    .info a:hover {
+      color: #63b3ed;
+    }
+
+    body {
+      background-image:
+        linear-gradient(to right, rgba(30, 58, 138, 0.4) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(30, 58, 138, 0.4) 1px, transparent 1px);
+      background-size: 80px 80px;
+      background-color: #0a1a2f;
+    }
+  </style>
+</head>
+
+<body class="text-white font-poppins">
+
+  <!-- Navbar -->
+  <header
+    class="animate__animated animate__fadeInDown fixed top-0 left-0 w-full bg-black/60 backdrop-blur-md flex items-center justify-between px-8 py-4 z-50 shadow-lg">
+    <div class="text-2xl font-bold text-cyan-400">🩺 ସଖା</div>
+    <nav>
+      <ul class="flex gap-8 text-lg">
+        <li><a href="#home" class="hover:text-cyan-400 transition">Home</a></li>
+        <li><a href="#services" class="hover:text-cyan-400 transition">Services</a></li>
+        <li><a href="#team" class="hover:text-cyan-400 transition">Team</a></li>
+        <li><a href="#about" class="hover:text-cyan-400 transition">About</a></li>
+      </ul>
+    </nav>
+    <a href="login.html" class="text-white hover:text-cyan-400 text-2xl transition transform hover:scale-110">
+      <i class="fas fa-user-circle"></i>
+    </a>
+  </header>
+
+  <!-- Hero -->
+  <section id="home"
+    class="h-screen flex flex-col justify-center items-center text-center px-6 bg-gradient-to-br from-[#0a1a2f] to-[#123456]">
+    <h1 class="animate__animated animate__fadeInDown text-4xl md:text-6xl font-extrabold text-cyan-400">
+      AI-Driven Public Health Awareness
+    </h1>
+    <p class="animate__animated animate__fadeInUp mt-6 max-w-2xl text-gray-300">
+      Empowering people with knowledge, prevention, and care through AI-powered chatbot solutions.
+    </p>
+    <a href="#services"
+      class="animate__animated animate__bounceIn mt-8 inline-block px-8 py-3 rounded-full bg-cyan-400 text-[#0a1a2f] font-semibold hover:bg-teal-400 hover:scale-110 transition transform">
+      Explore Services
+    </a>
+  </section>
+
+  <!-- ✅ Updated Services -->
+  <section id="services" class="py-20 bg-[#10243f] px-8">
+  <h2 class="text-3xl font-bold text-center text-cyan-400 mb-12 animate__animated animate__fadeInUp">
+    What We Do
+  </h2>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+
+    <!-- Example Card -->
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp">
+      <h3 class="text-xl font-semibold mb-3">🧑‍⚕️ Disease Awareness</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Accurate AI-powered information about symptoms and prevention methods.</p>
+      </div>
+    </div>
+
+    <!-- Repeat for other cards -->
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp animate__delay-1s">
+      <h3 class="text-xl font-semibold mb-3">💬 AI Chatbot</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Chat with our AI to understand your health concerns anytime, anywhere.</p>
+      </div>
+    </div>
+
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp animate__delay-2s">
+      <h3 class="text-xl font-semibold mb-3">📍 Location</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Track and show nearest hospitals and first-aid points directly on map.</p>
+      </div>
+    </div>
+    
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp animate__delay-2s">
+      <h3 class="text-xl font-semibold mb-3">🌍 Emergency Health Support</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Helping communities stay safe with verified medical information and helpline numbers.</p>
+      </div>
+    </div>
+
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp animate__delay-2s">
+      <h3 class="text-xl font-semibold mb-3">🖼️ Image Analyzer</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Upload photos and our AI will analyze wounds, skin conditions, and suggest possible causes.</p>
+      </div>
+    </div>
+
+    <div
+      class="group bg-[#183a5c] hover:bg-[#225b8d] p-6 rounded-xl transition transform hover:scale-105 hover:shadow-xl animate__animated animate__fadeInUp animate__delay-2s">
+      <h3 class="text-xl font-semibold mb-3">🚨 Outbreak & Vaccination Alerts</h3>
+      <div
+        class="overflow-hidden transition-all duration-500 max-h-0 opacity-0 group-hover:max-h-40 group-hover:opacity-100">
+        <p class="text-gray-300">Real-time alerts on disease outbreaks and vaccination drives to keep communities safe.</p>
+      </div>
+    </div>
+    <!-- You can copy this pattern for the rest -->
+    
+  </div>
+</section>
+
+  <!-- Team with 3D Animation -->
+  <section id="team" class="py-20 px-8 relative overflow-hidden">
+    <h2 class="text-3xl font-bold text-center text-cyan-400 mb-16 animate__animated animate__fadeInUp">
+      Meet the Innovators
+    </h2>
+
+    <div class="team-container">
+      <h1 class="title">CodeSaviours</h1>
+
+      <div class="gallery">
+        <!-- Team cards (unchanged)... -->
+        <div class="card">
+          <img src="images/amlan.jpeg" alt="Amlan">
+          <div class="info">
+            <h2>Amlan Rout</h2>
+            <p><b>Reg No:</b> 2241018134</p>
+            <p><b>Role:</b> Backend Developer</p>
+            <p><a href="https://github.com/amlan" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/sita.jpeg" alt="Sitakanta">
+          <div class="info">
+            <h2>Sitakanta Nayak</h2>
+            <p><b>Reg No:</b> 2241014133</p>
+            <p><b>Role:</b> Frontend Developer, Backend Developer</p>
+            <p><a href="https://github.com/Sitakanta-dev" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/bisu.jpeg" alt="Biswa">
+          <div class="info">
+            <h2>Biswa Prakash Rout</h2>
+            <p><b>Reg No:</b> 2241018146</p>
+            <p><b>Role:</b> Frontend Developer, IAM Specialist</p>
+            <p><a href="https://github.com/bisuuuuu" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/mishra.jpeg" alt="Debasis">
+          <div class="info">
+            <h2>Debasis Mishra</h2>
+            <p><b>Reg No:</b> 2241013146</p>
+            <p><b>Role:</b> Backend Developer</p>
+            <p><a href="https://github.com/DEBASIS000123" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/somya.jpeg" alt="Somya">
+          <div class="info">
+            <h2>Somya Ranjan Das</h2>
+            <p><b>Reg No:</b> 2241004116</p>
+            <p><b>Role:</b> Frontend Developer, Backend Developer</p>
+            <p><a href="https://github.com/somya27-93" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+        <div class="card">
+          <img src="images/palakh.jpeg" alt="Palakh">
+          <div class="info">
+            <h2>Palakh Agarwal</h2>
+            <p><b>Reg No:</b> 2341001041</p>
+            <p><b>Role:</b> UI/UX</p>
+            <p><a href="https://github.com/palak-h" target="_blank">GitHub</a></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-team">
+        <p class="team font-bold text-4xl">TEAM_s160</p>
+        <p class="problem"><b>Problem Statement:</b> AI-Driven Public Health Chatbot for Disease Awareness</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-20 bg-[#10243f] text-center px-8">
+    <h2 class="text-3xl font-bold text-cyan-400 mb-6 animate__animated animate__fadeInUp">About 🩺 ସଖା</h2>
+    <p class="max-w-3xl mx-auto text-gray-300 animate__animated animate__fadeInUp animate__delay-1s">
+      🩺 ସଖା is a Smart India Hackathon project aimed at improving public health awareness
+      using AI-driven chatbot. Our mission is to empower individuals with reliable health information,
+      reduce misinformation, and support healthcare systems worldwide.
+    </p>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#081424] py-6 text-center text-gray-400 text-sm animate__animated animate__fadeInUp">
+    © 2025 🩺 ସଖା. All Rights Reserved.
+  </footer>
+
+  <!-- JS for 3D Animation -->
+  <script>
+    const cards = document.querySelectorAll('.card');
+    const total = cards.length;
+    const radius = 700;
+    let angle = 0;
+    let isPaused = false;
+
+    function positionCards(angleOffset = 0) {
+      cards.forEach((card, i) => {
+        let angleForCard = (2 * Math.PI / total) * i + angleOffset;
+        card.style.transform = `
+          translate(-50%, -50%)
+          rotateY(${angleForCard}rad)
+          translateZ(${radius}px)
+        `;
+      });
+    }
+
+    function animate() {
+      if (!isPaused) {
+        angle += 0.002;
+        positionCards(angle);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    cards.forEach(card => {
+      card.addEventListener("mouseenter", () => {
+        isPaused = true;
+        card.style.transform += " scale(1.2)";
+        card.querySelector(".info").style.display = "block";
+      });
+      card.addEventListener("mouseleave", () => {
+        isPaused = false;
+        card.querySelector(".info").style.display = "none";
+      });
+    });
+
+    positionCards();
+    animate();
+  </script>
+</body>
+</html>
